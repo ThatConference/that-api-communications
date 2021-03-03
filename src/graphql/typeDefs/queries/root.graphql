@@ -1,0 +1,4 @@
+type Query {
+  "notification queries"
+  notifications: NotificationsQuery @auth(requires: "admin")
+}

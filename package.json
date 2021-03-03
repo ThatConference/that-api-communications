@@ -1,0 +1,86 @@
+{
+  "name": "that-api-notifications",
+  "version": "1.0.0",
+  "description": "THAT Notifications api. Where we keep in touch with you!",
+  "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "build": "rimraf __build__ && babel ./src -d ./__build__ --copy-files",
+    "postbuild": "cp .env package* __build__",
+    "predeploy:local": "npm run build",
+    "deploy:local": "cd ./__build__ && functions-framework --target=handler --port=8006 --verbose",
+    "start:watch": "nodemon -e env,js,json,graphql --watch src --ignore '*.test.js' --exec npm run deploy:local",
+    "start": "functions-framework --target=handler",
+    "test": "jest --coverage",
+    "test:watch": "jest --watchAll",
+    "lint": "eslint 'src/**/*.js'",
+    "validate": "concurrently npm:test npm:lint npm:build"
+  },
+  "dependencies": {
+    "@apollo/federation": "^0.21.2",
+    "@google-cloud/firestore": "^4.9.4",
+    "@google-cloud/functions-framework": "^1.7.1",
+    "@graphql-tools/load-files": "^6.2.7",
+    "@graphql-tools/merge": "^6.2.10",
+    "@sentry/node": "^6.2.0",
+    "@thatconference/api": "~1.21.0",
+    "@thatconference/schema": "^1.1.0",
+    "apollo-datasource-rest": "^0.10.0",
+    "apollo-server-express": "^2.21.0",
+    "dataloader": "^2.0.0",
+    "debug": "^4.3.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^15.5.0",
+    "graphql-scalars": "^1.8.0",
+    "graphql-type-json": "^0.3.2",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "response-time": "^2.3.2",
+    "slugify": "^1.4.7",
+    "stripe": "^8.137.0",
+    "uuid": "^8.3.2",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.0",
+    "@babel/core": "^7.13.8",
+    "@babel/node": "^7.13.0",
+    "@babel/preset-env": "^7.13.9",
+    "@babel/register": "^7.13.8",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.3",
+    "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.21.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.5",
+    "eslint-plugin-prettier": "^3.3.1",
+    "husky": "^4.3.8",
+    "jest-cli": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "prettier-eslint": "^12.0.0",
+    "prettier-eslint-cli": "^5.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run validate"
+    }
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "rootDir": "./src",
+    "coverageDirectory": "../__testCoverage__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ThatConference/that-api-notifications"
+  },
+  "license": "GPL-3.0"
+}

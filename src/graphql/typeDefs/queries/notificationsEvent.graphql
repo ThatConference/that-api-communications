@@ -1,0 +1,6 @@
+type NotificationsEventQuery {
+  "query of registered members of the event"
+  registered: String
+  "query of members with unallocated ticket(s) for the event"
+  unregistered: String
+}
