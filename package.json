@@ -1,7 +1,7 @@
 {
-  "name": "that-api-notifications",
+  "name": "that-api-communications",
   "version": "1.0.0",
-  "description": "THAT Notifications api. Where we keep in touch with you!",
+  "description": "THAT communications api. Where we keep in touch with you!",
   "main": "index.js",
   "engines": {
     "node": "14.x"
@@ -80,7 +80,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ThatConference/that-api-notifications"
+    "url": "https://github.com/ThatConference/that-api-communications"
   },
   "license": "GPL-3.0"
 }

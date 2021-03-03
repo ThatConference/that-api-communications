@@ -19,8 +19,8 @@ let version;
   version = p.version;
 })();
 
-const dlog = debug('that:api:notifications:index');
-const defaultVersion = `that-api-notifications@${version}`;
+const dlog = debug('that:api:communications:index');
+const defaultVersion = `that-api-communications@${version}`;
 const firestore = new Firestore();
 const api = express();
 
@@ -32,7 +32,7 @@ Sentry.init({
 });
 
 Sentry.configureScope(scope => {
-  scope.setTag('thatApp', 'that-api-notifications');
+  scope.setTag('thatApp', 'that-api-communications');
 });
 
 const createConfig = () => ({
@@ -46,8 +46,8 @@ const graphServer = apolloGraphServer(createConfig());
 
 const useSentry = async (req, res, next) => {
   Sentry.addBreadcrumb({
-    category: 'that-api-notifications',
-    message: 'notifications init',
+    category: 'that-api-communications',
+    message: 'communications init',
     level: Sentry.Severity.Info,
   });
   next();

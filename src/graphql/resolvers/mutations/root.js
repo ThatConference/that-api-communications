@@ -1,9 +1,9 @@
 import debug from 'debug';
 
-const dlog = debug('that:api:notifications:mutation');
+const dlog = debug('that:api:communications:mutation');
 
 const resolvers = {
-  notifications: () => {
+  communications: () => {
     dlog('root mutation called');
     return {};
   },

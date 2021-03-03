@@ -1,0 +1,4 @@
+type communicationsMutation {
+  "Mutations specific to a communication"
+  communication(communicationId: ID!): String @auth(requires: "admin")
+}

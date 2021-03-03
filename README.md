@@ -1,8 +1,8 @@
-# THAT Notifications Api
+# THAT communications Api
 
-All things notifications and querying data for them.
+All things communications and querying data for them.
 
-[![Actions Status](https://github.com/ThatConference/that-api-notifications/workflows/Push%20Master%20CI/badge.svg)](https://github.com/ThatConference/that-api-notifications/workflows/actions)
+[![Actions Status](https://github.com/ThatConference/that-api-communications/workflows/Push%20Main%20CI/badge.svg)](https://github.com/ThatConference/that-api-communications/workflows/actions)
 
 ## Dependencies
 

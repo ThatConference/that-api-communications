@@ -1,4 +1,0 @@
-type NotificationsMutation {
-  "Mutations specific to a notification"
-  notification(notificationId: ID!): String @auth(requires: "admin")
-}

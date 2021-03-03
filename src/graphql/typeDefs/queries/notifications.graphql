@@ -1,4 +1,0 @@
-type NotificationsQuery {
-  "Notification data related to an event"
-  event: NotificationsEventQuery
-}

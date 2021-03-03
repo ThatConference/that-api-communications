@@ -8,13 +8,13 @@
   "editor.snippetSuggestions": "top",
   "peacock.color": "cyan",
   "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#ff0000a0",
-    "titleBar.inactiveBackground": "#ff000050",
+    "titleBar.activeBackground": "#ffffff",
+    "titleBar.inactiveBackground": "#ffffff44",
     "titleBar.activeForeground": "#15202b",
     "titleBar.inactiveForeground": "#bbbbbb",
-    "statusBar.background": "#ff0000bb",
-    "statusBarItem.hoverBackground": "#005b00",
-    "statusBar.foreground": "#88c3ff"
+    "statusBar.background": "#ffffffbb",
+    "statusBarItem.hoverBackground": "#b6ffb6",
+    "statusBar.foreground": "#444444"
   },
   "peacock.affectActivityBar": false,
   "editor.codeActionsOnSave": {

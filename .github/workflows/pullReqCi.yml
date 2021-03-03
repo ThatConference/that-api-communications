@@ -21,7 +21,7 @@ jobs:
           npm run validate
         env:
           CI: true
-      - name: Slack Notification
+      - name: Slack communication
         uses: 8398a7/action-slack@v3
         with:
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took

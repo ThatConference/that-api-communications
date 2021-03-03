@@ -11,7 +11,7 @@ import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 import directives from './directives';
 
-const dlog = debug('that:api:notifications:graphServer');
+const dlog = debug('that:api:communications:graphServer');
 const jwtClient = security.jwt();
 
 /**
