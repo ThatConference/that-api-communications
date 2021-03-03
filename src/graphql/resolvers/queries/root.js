@@ -1,10 +1,10 @@
 import debug from 'debug';
 
-const dlog = debug('that:api:notifications:query');
+const dlog = debug('that:api:communications:query');
 
 const resolvers = {
-  notifications: () => {
-    dlog('root notifications called');
+  communications: () => {
+    dlog('root communications called');
     return {};
   },
 };

@@ -1,11 +1,11 @@
 import rootMutation from './root';
 
-import { fieldResolvers as notificationFields } from './notifications';
+import { fieldResolvers as communicationFields } from './communications';
 
 export default {
   ...rootMutation,
 };
 
 export const fieldResolvers = {
-  ...notificationFields,
+  ...communicationFields,
 };

@@ -1,13 +1,13 @@
 import root from './root';
 
-import { fieldResolvers as notificationFields } from './notifications';
-import { fieldResolvers as notificationEventFields } from './notificationsEvent';
+import { fieldResolvers as communicationFields } from './communications';
+import { fieldResolvers as communicationEventFields } from './communicationsEvent';
 
 export default {
   ...root,
 };
 
 export const fieldResolvers = {
-  ...notificationFields,
-  ...notificationEventFields,
+  ...communicationFields,
+  ...communicationEventFields,
 };

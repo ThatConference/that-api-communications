@@ -1,4 +1,4 @@
 type Query {
-  "notification queries"
-  notifications: NotificationsQuery @auth(requires: "admin")
+  "communication queries"
+  communications: communicationsQuery @auth(requires: "admin")
 }

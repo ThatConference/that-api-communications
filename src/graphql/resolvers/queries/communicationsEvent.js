@@ -1,9 +1,9 @@
 import debug from 'debug';
 
-const dlog = debug('that:api:notifications:query:notificationsEvent');
+const dlog = debug('that:api:communications:query:communicationsEvent');
 
 export const fieldResolvers = {
-  NotificationsEventQuery: {
+  communicationsEventQuery: {
     registered: () => {
       dlog('registered resolver called');
       throw new Error('not implemented');

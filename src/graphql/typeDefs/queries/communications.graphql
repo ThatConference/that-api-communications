@@ -1,0 +1,4 @@
+type communicationsQuery {
+  "communication data related to an event"
+  event: communicationsEventQuery
+}
