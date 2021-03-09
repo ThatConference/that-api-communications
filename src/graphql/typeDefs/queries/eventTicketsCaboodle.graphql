@@ -1,0 +1,6 @@
+type EventTicketsCaboodleQuery {
+  "Sold tickets which are allocated to a member"
+  allocated: String
+  "Sold tickets which haven't been allocated to a member"
+  unallocated: String
+}

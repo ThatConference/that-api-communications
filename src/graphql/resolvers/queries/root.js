@@ -7,6 +7,10 @@ const resolvers = {
     dlog('root communications called');
     return {};
   },
+  caboodle: () => {
+    dlog('root caboodle called');
+    return {};
+  },
 };
 
 export default resolvers;

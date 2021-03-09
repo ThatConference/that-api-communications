@@ -1,0 +1,5 @@
+"Describes a message, it's definition"
+type MessageDefinition {
+  "Unique id"
+  id: ID!
+}

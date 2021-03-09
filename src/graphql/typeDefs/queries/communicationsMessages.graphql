@@ -1,0 +1,6 @@
+type CommunicationsMessagesQuery {
+  "retrieve a list of all message definitions"
+  all: [MessageDefinition!]!
+  "Request a specific message definition"
+  message(messageId: ID!): MessageDefinition!
+}

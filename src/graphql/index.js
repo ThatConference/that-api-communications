@@ -10,6 +10,7 @@ import DataLoader from 'dataloader';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 import directives from './directives';
+import ThatApi from '../dataSources/rest/thatApi';
 
 const dlog = debug('that:api:communications:graphServer');
 const jwtClient = security.jwt();
@@ -42,6 +43,7 @@ const createServer = ({ dataSources }) => {
 
       return {
         ...dataSources,
+        thatApi: new ThatApi(),
       };
     },
 

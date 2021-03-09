@@ -1,0 +1,4 @@
+type CaboodleQuery {
+  "Events data caboodle"
+  event(eventId: ID!): EventCaboodleQuery @auth(requires: "admin")
+}

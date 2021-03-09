@@ -18,6 +18,8 @@ const requiredConfig = () => ({
     process.env.STRIPE_PORTAL_RETURN_URL || 'https://that.us/',
   bouncerBaseUrl:
     process.env.BOUNCER_BASE_URL || configMissing('BOUNCER_BASE_URL'),
+  thatGateway:
+    process.env.THAT_API_GATEWAY || configMissing('THAT_API_GATEWAY'),
 });
 
 export default requiredConfig();
