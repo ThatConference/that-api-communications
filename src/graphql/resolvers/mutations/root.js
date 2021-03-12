@@ -4,7 +4,7 @@ const dlog = debug('that:api:communications:mutation');
 
 const resolvers = {
   communications: () => {
-    dlog('root mutation called');
+    dlog('root communications mutation called');
     return {};
   },
 };

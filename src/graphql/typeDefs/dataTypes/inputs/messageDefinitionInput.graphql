@@ -1,0 +1,37 @@
+input MessageDefinitionCreateInput {
+  "name of message definition"
+  name: String!
+  "description of message definition"
+  description: String!
+  "Type of/focus of this message"
+  messageType: MessageType!
+  "data source used for sending this message (ENUM)"
+  dataSource: MessageDataSource!
+  "Postmark template alias for message"
+  postmarkAlias: String!
+  "Message email type, e.g. transactional, broadcast, etc."
+  postmarkMessageType: PostmarkMessageType!
+  "is this message for online events (no specific eventId)"
+  isOnline: Boolean!
+  "Message is associated with this event. Empty with online"
+  event: ID
+}
+
+input MessageDefinitionUpdateInput {
+  "name of message definition"
+  name: String
+  "description of message definition"
+  description: String
+  "Type of/focus of this message"
+  messageType: MessageType
+  "data source used for sending this message (ENUM)"
+  dataSource: MessageDataSource
+  "Postmark template alias for message"
+  postmarkAlias: String
+  "Message email type, e.g. transactional, broadcast, etc."
+  postmarkMessageType: PostmarkMessageType
+  "is this message for online events (no specific eventId)"
+  isOnline: Boolean
+  "Message is associated with this event. Empty with online"
+  event: ID
+}

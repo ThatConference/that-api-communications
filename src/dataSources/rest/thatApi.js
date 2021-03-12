@@ -7,7 +7,8 @@ const dlog = debug('that:api:communications:dataSources:rest:thatapi');
 class ThatApi extends RESTDataSource {
   constructor() {
     super();
-    this.baseUrl = envConfig.thatGateway;
+    this.baseURL = envConfig.thatGateway;
+    // this.baseUrl = 'http://localhost:8000/';
   }
 
   willSendRequest(request) {
@@ -15,8 +16,8 @@ class ThatApi extends RESTDataSource {
     request.headers.set('Authorization', this.context.user.authToken);
   }
 
-  async postGraphQl(payload) {
-    return this.post('graphql', payload, {
+  postGraphQl(payload) {
+    return this.post('', payload, {
       headers: {
         'Content-Type': 'application/json',
       },

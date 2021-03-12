@@ -2,7 +2,7 @@ import debug from 'debug';
 import { utility } from '@thatconference/api';
 
 const dlog = debug(
-  'that:api:communications:datasources:firebase:orderAllocation',
+  'that:api:communications:dataSources:firebase:orderAllocation',
 );
 const { entityDateForge } = utility.firestoreDateForge;
 const allocationDateForge = entityDateForge({ fields: ['lastUpdatedAt'] });

@@ -1,0 +1,5 @@
+"DataSources used by messages to get addressees"
+enum MessageDataSource {
+  REGISTERED
+  UNALLOCATED
+}

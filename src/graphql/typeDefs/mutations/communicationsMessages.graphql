@@ -1,0 +1,10 @@
+type CommunicationsMessagesMutation {
+  "Message specific mutations"
+  message(messageId: ID!): CommunicationsMessageMutation!
+    @auth(requires: "admin")
+  "create a new message"
+  create(newMessage: MessageDefinitionCreateInput!): MessageDefinition!
+    @auth(requires: "admin")
+  "queue messages to be sent. Returns message queued count"
+  queue(eventId: ID!, messageType: MessageType): Int @auth(requires: "admin")
+}
