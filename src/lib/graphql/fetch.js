@@ -1,17 +1,8 @@
 import debug from 'debug';
 import messageAddresseeQuery from './queries/that';
+import getObjectAtPath from '../getObjectAtPath';
 
 const dlog = debug('that:api:communications:graphql:fetch');
-
-function getObjectAtPath(obj, path) {
-  dlog('getObjectAtPath :: %o', obj);
-  let data = obj;
-  const pathParts = path.split('.');
-  for (let i = 0; i < pathParts.length; i += 1) {
-    data = data[pathParts[i]];
-  }
-  return data;
-}
 
 function fetchAddressees({ eventId, msgDataSource, thatApi }) {
   dlog(

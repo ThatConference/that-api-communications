@@ -40,8 +40,7 @@
     "moment": "^2.29.1",
     "response-time": "^2.3.2",
     "slugify": "^1.4.7",
-    "uuid": "^8.3.2",
-    "yup": "^0.32.9"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.10",
@@ -64,7 +63,8 @@
     "jest-cli": "^26.6.3",
     "nodemon": "^2.0.7",
     "prettier-eslint": "^12.0.0",
-    "prettier-eslint-cli": "^5.0.1"
+    "prettier-eslint-cli": "^5.0.1",
+    "yup": "^0.32.9"
   },
   "husky": {
     "hooks": {

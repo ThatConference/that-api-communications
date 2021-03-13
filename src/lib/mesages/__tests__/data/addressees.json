@@ -1,0 +1,63 @@
+[
+  {
+    "isAllocated": true,
+    "hasCheckedIn": false,
+    "allocatedTo": {
+      "firstName": "user1_FN",
+      "lastName": "user1_LN",
+      "email": "user1@example.com"
+    },
+    "purchasedBy": {
+      "firstName": "user1_FN"
+    }
+  },
+  {
+    "isAllocated": true,
+    "hasCheckedIn": false,
+    "allocatedTo": {
+      "firstName": "",
+      "lastName": "user2_LN",
+      "email": "user2@example.com"
+    },
+    "purchasedBy": {
+      "firstName": "user2_FN"
+    }
+  },
+  {
+    "isAllocated": true,
+    "hasCheckedIn": false,
+    "allocatedTo": {
+      "firstName": "user3_FN",
+      "lastName": "user3_LN",
+      "email": "user3@example.com"
+    },
+    "purchasedBy": {
+      "firstName": "user3_FN",
+      "lastName": "user3_LN"
+    }
+  },
+  {
+    "isAllocated": true,
+    "hasCheckedIn": false,
+    "allocatedTo": {
+      "firstName": "user4_FN",
+      "lastName": "user4_LN",
+      "email": null
+    },
+    "purchasedBy": {
+      "firstName": "user4_FN"
+    }
+  },
+  {
+    "isAllocated": true,
+    "hasCheckedIn": false,
+    "allocatedTo": {
+      "firstName": "user5_FN",
+      "lastName": "user5_LN",
+      "email": "user5@example.com"
+    },
+    "purchasedBy": {
+      "firstName": "user5_FN"
+    }
+  }
+]

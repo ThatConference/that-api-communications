@@ -11,6 +11,8 @@ input MessageDefinitionCreateInput {
   postmarkAlias: String!
   "Message email type, e.g. transactional, broadcast, etc."
   postmarkMessageType: PostmarkMessageType!
+  "where in the message template is the To: email address"
+  emailToTemplatePath: String!
   "is this message for online events (no specific eventId)"
   isOnline: Boolean!
   "Message is associated with this event. Empty with online"
@@ -30,6 +32,8 @@ input MessageDefinitionUpdateInput {
   postmarkAlias: String
   "Message email type, e.g. transactional, broadcast, etc."
   postmarkMessageType: PostmarkMessageType
+  "where in the message template is the To: email address"
+  emailToTemplatePath: String
   "is this message for online events (no specific eventId)"
   isOnline: Boolean
   "Message is associated with this event. Empty with online"

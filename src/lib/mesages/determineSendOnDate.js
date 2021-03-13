@@ -10,7 +10,7 @@ export default function determineSendOnDate({
   dlog('determineSendOnDate for a message');
 
   const oneDay = 86400000; // in milliseconds
-  const oneHour = 60000;
+  const oneHour = 3600000;
   const now = new Date().getTime();
   const _startDate = new Date(startDate).getTime();
   const _endDate = new Date(endDate).getTime();
