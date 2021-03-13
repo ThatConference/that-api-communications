@@ -14,7 +14,7 @@ const baseObject = {
   event: {
     name: 'THAT Confrence',
     startDate: new Date('2021-03-12T21:40:40.431Z'),
-    endDate: new Date('2021-03-12T21:40:40.431Z'),
+    endDate: new Date('2021-03-14T21:40:40.431Z'),
   },
 };
 

@@ -79,15 +79,6 @@ describe('createMessageQueue tests', () => {
           });
         });
       });
-
-      // eslint-disable-next-line arrow-body-style
-      it('will validate against yup schema', () => {
-        return expect(
-          queueMessageSchema
-            .validate(result[0][0], { strict: true, abortEarly: true })
-            .then(() => true),
-        ).resolves.toEqual(true);
-      });
     });
   });
 });

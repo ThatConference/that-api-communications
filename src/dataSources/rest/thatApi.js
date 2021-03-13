@@ -8,7 +8,6 @@ class ThatApi extends RESTDataSource {
   constructor() {
     super();
     this.baseURL = envConfig.thatGateway;
-    // this.baseUrl = 'http://localhost:8000/';
   }
 
   willSendRequest(request) {
