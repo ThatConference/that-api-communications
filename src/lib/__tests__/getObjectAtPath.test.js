@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import getObjectAtPath from '../getObjectAtPath';
 
 const baseObject = {
