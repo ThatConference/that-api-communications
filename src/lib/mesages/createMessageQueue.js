@@ -58,6 +58,8 @@ export default function createMessageQueue({
         isSent: false,
         queueDate,
         sendOnDate,
+        isInError: false,
+        errorReason: null,
       };
 
       iterationQueue.push(msg);
