@@ -11,25 +11,26 @@ export default function determineSendOnDate({
 
   const oneDay = 86400000; // in milliseconds
   const oneHour = 3600000;
+  const halfHour = 1800000;
   const now = new Date().getTime();
   const _startDate = new Date(startDate).getTime();
   const _endDate = new Date(endDate).getTime();
   let sendOnDate;
   switch (messageType) {
     case 'THIRTY_DAYS_OUT':
-      sendOnDate = _startDate + oneDay * 30;
+      sendOnDate = _startDate - oneDay * 30;
       break;
     case 'TWO_WEEKS_OUT':
-      sendOnDate = _startDate + oneDay * 14;
+      sendOnDate = _startDate - oneDay * 14;
       break;
     case 'THREE_DAYS_OUT':
-      sendOnDate = _startDate + oneDay * 3;
+      sendOnDate = _startDate - oneDay * 3;
       break;
     case 'BE_PREPARED':
-      sendOnDate = _startDate + oneDay;
+      sendOnDate = _startDate - oneDay;
       break;
     case 'WELCOME':
-      sendOnDate = _startDate;
+      sendOnDate = _startDate + halfHour;
       break;
     case 'THANK_YOU':
       sendOnDate = _endDate + oneDay;

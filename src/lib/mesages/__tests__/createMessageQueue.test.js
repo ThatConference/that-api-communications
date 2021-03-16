@@ -4,11 +4,13 @@ import addressees from './data/addressees.json';
 
 const queueMessageSchema = yup.object().shape({
   emailTo: yup.string().email(),
-  isQueued: yup.boolean().required(),
+  isQueuedToSend: yup.boolean().required(),
   isSent: yup.boolean().required(),
+  isInError: yup.boolean().required(),
   postmarkAlias: yup.string().required().min(5),
   postmarkMessageType: yup.string().required().uppercase(),
-  queueDate: yup.date().required(),
+  thatMessageType: yup.string().required(),
+  createdAt: yup.date().required(),
   sendOnDate: yup.date().required(),
   templateModel: yup.object({
     member: yup.object({

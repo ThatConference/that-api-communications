@@ -19,7 +19,7 @@ export default function createMessageQueue({
   const messageQueue = [];
   let iterationQueue = [];
   dlog('number of queue iterations: %d', iterations);
-  const queueDate = new Date();
+  const createdAt = new Date();
   for (let i = 0; i < iterations; i += 1) {
     dlog('on iteration, %d', i);
     iterationQueue = [];
@@ -53,11 +53,13 @@ export default function createMessageQueue({
           getObjectAtPath(templateModel, message.emailToTemplatePath) || '',
         postmarkAlias: message.postmarkAlias,
         postmarkMessageType: message.postmarkMessageType,
+        thatMessageType: message.messageType,
         templateModel,
-        isQueued: false,
+        isQueuedToSend: false,
         isSent: false,
-        queueDate,
+        createdAt,
         sendOnDate,
+        queuedAt: null,
         isInError: false,
         errorReason: null,
       };

@@ -45,7 +45,7 @@ const messageQueue = dbInstance => {
     const batch = dbInstance.batch();
     queueIds.forEach(q => {
       const docRef = msgQueueCollection(q);
-      batch.update(docRef, msgUpdate, { merge: true });
+      batch.update(docRef, msgUpdate);
     });
 
     return batch.commit();

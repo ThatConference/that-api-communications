@@ -5,23 +5,23 @@ const dayMilis = 24 * 60 * 60 * 1000; // 86400000
 const tests = [
   {
     messageType: 'THIRTY_DAYS_OUT',
-    expect: '2021-04-11T11:00:00.000Z',
+    expect: '2021-02-10T11:00:00.000Z',
   },
   {
     messageType: 'TWO_WEEKS_OUT',
-    expect: '2021-03-26T11:00:00.000Z',
+    expect: '2021-02-26T11:00:00.000Z',
   },
   {
     messageType: 'THREE_DAYS_OUT',
-    expect: '2021-03-15T11:00:00.000Z',
+    expect: '2021-03-09T11:00:00.000Z',
   },
   {
     messageType: 'BE_PREPARED',
-    expect: '2021-03-13T11:00:00.000Z',
+    expect: '2021-03-11T11:00:00.000Z',
   },
   {
     messageType: 'WELCOME',
-    expect: '2021-03-12T11:00:00.000Z',
+    expect: '2021-03-12T11:30:00.000Z',
   },
   {
     messageType: 'THANK_YOU',
