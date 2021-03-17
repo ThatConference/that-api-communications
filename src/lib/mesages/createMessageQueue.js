@@ -1,4 +1,5 @@
 import debug from 'debug';
+import dateformat from 'dateformat';
 import getObjectAtPath from '../getObjectAtPath';
 
 const dlog = debug('that:api:communications:lib:messages');
@@ -20,6 +21,7 @@ export default function createMessageQueue({
   let iterationQueue = [];
   dlog('number of queue iterations: %d', iterations);
   const createdAt = new Date();
+  const dateFormatString = 'dddd, mmmm dS, yyyy "@" h:MM TT Z';
   for (let i = 0; i < iterations; i += 1) {
     dlog('on iteration, %d', i);
     iterationQueue = [];
@@ -30,6 +32,14 @@ export default function createMessageQueue({
       const addressee = addressees[i * queueRate + j];
       const allocatedTo = addressee.allocatedTo || {};
       const purchasedBy = addressee.purchasedBy || {};
+      const eventStartDate =
+        event.startDate instanceof Date
+          ? dateformat(event.startDate, dateFormatString)
+          : event.startDate;
+      const eventEndDate =
+        event.endDate instanceof Date
+          ? dateformat(event.endDate, dateFormatString)
+          : event.endDate;
 
       const templateModel = {
         member: {
@@ -44,8 +54,8 @@ export default function createMessageQueue({
         },
         event: {
           name: event.name || '',
-          startDate: event.startDate || '',
-          endDate: event.endDate || '',
+          startDate: eventStartDate || '',
+          endDate: eventEndDate || '',
         },
       };
       const msg = {
