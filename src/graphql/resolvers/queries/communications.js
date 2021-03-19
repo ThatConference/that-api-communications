@@ -8,5 +8,9 @@ export const fieldResolvers = {
       dlog('Messages called');
       return {};
     },
+    check: () => {
+      dlog('Communications check');
+      return true;
+    },
   },
 };
