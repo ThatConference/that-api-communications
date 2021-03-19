@@ -1,7 +1,13 @@
 import root from './root';
 
 import { fieldResolvers as communicationFields } from './communications';
-import { fieldResolvers as communicationEventFields } from './communicationsEvent';
+import { fieldResolvers as communicationsMessagesFields } from './communicationsMessages';
+import { fieldResolvers as messageDefinitionFields } from './messageDefinition';
+import { fieldResolvers as eventAllocationFields } from './eventAllocation';
+import { fieldResolvers as caboodleFields } from './caboodle';
+import { fieldResolvers as eventCaboodleFields } from './eventCaboodle';
+import { fieldResolvers as eventMembersCaboodleFields } from './eventMembersCaboodle';
+import { fieldResolvers as eventTicketsCaboodleFields } from './eventTicketsCaboodle';
 
 export default {
   ...root,
@@ -9,5 +15,11 @@ export default {
 
 export const fieldResolvers = {
   ...communicationFields,
-  ...communicationEventFields,
+  ...communicationsMessagesFields,
+  ...messageDefinitionFields,
+  ...eventAllocationFields,
+  ...caboodleFields,
+  ...eventCaboodleFields,
+  ...eventMembersCaboodleFields,
+  ...eventTicketsCaboodleFields,
 };

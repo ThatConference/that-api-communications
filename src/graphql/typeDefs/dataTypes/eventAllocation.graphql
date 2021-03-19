@@ -1,0 +1,19 @@
+"Based off of OrderAllocation type, used for messaging list for an event"
+type EventAllocation {
+  "The event registered for"
+  event: Event!
+  "The product this allocation refers to"
+  product: Product!
+  "the type of product this allocation is"
+  productType: String!
+  "has this allocation been claimed?"
+  isAllocated: Boolean!
+  "The member this allocation is allocated to (registered)"
+  allocatedTo: Profile
+  "The allocatedTo person has checked in or not"
+  hasCheckedIn: Boolean!
+  "Member who purchased this allocation"
+  purchasedBy: Profile!
+  "Last time this allocation has been updated"
+  lastUpdatedAt: Date!
+}

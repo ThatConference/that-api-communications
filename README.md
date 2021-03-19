@@ -2,7 +2,7 @@
 
 All things communications and querying data for them.
 
-[![Actions Status](https://github.com/ThatConference/that-api-communications/workflows/Push%20Main%20CI/badge.svg)](https://github.com/ThatConference/that-api-communications/workflows/actions)
+[![Push Main CI for Cloud Run](https://github.com/ThatConference/that-api-communications/actions/workflows/pushMainCi_GRun.yml/badge.svg)](https://github.com/ThatConference/that-api-communications/actions/workflows/pushMainCi_GRun.yml)
 
 ## Dependencies
 

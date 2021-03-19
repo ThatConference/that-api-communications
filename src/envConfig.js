@@ -1,3 +1,5 @@
+import constants from './constants';
+
 function configMissing(configKey) {
   throw new Error(`missing required .env setting for ${configKey}`);
 }
@@ -7,17 +9,12 @@ const requiredConfig = () => ({
     process.env.POSTMARK_API_TOKEN || configMissing('POSTMARK_API_TOKEN'),
   defaultProfileImage:
     'https://images.that.tech/members/person-placeholder.jpg',
-  stripePublishableKey:
-    process.env.STRIPE_PUBLISHABLE_KEY ||
-    configMissing('STRIPE_PUBLISHABLE_KEY'),
-  stripeSecretKey:
-    process.env.STRIPE_SECRET_KEY || configMissing('STRIPE_SECRET_KEY'),
-  stripeSuccessUrl: process.env.STRIPE_SUCCESS_URL || 'https://that.us/',
-  stripeCancelUrl: process.env.STRIPE_CANCEL_URL || 'https://that.us/',
-  stripePortalReturnUrl:
-    process.env.STRIPE_PORTAL_RETURN_URL || 'https://that.us/',
-  bouncerBaseUrl:
-    process.env.BOUNCER_BASE_URL || configMissing('BOUNCER_BASE_URL'),
+  thatGateway:
+    process.env.THAT_API_GATEWAY || configMissing('THAT_API_GATEWAY'),
+  messageQueueWriteRate:
+    process.env.MESSAGING_WRITE_QUEUE_RATE ||
+    constants.THAT.MESSAGING.WRITE_QUEUE_RATE ||
+    configMissing('MESSAGING_WRITE_QUEUE_RATE'),
 });
 
 export default requiredConfig();

@@ -1,0 +1,5 @@
+type CommunicationsMessageMutation {
+  "update and existing message"
+  update(updatedMessage: MessageDefinitionUpdateInput): MessageDefinition!
+    @auth(requires: "admin")
+}

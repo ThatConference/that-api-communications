@@ -1,4 +1,6 @@
 type Query {
   "communication queries"
-  communications: communicationsQuery @auth(requires: "admin")
+  communications: CommunicationsQuery @auth(requires: "admin")
+  "kit and caboodle all the datas :)"
+  caboodle: CaboodleQuery @auth(requires: "admin")
 }

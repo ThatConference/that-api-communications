@@ -1,4 +1,4 @@
-type communicationsQuery {
-  "communication data related to an event"
-  event: communicationsEventQuery
+type CommunicationsQuery {
+  "Messages query path"
+  messages: CommunicationsMessagesQuery @auth(requires: "admin")
 }

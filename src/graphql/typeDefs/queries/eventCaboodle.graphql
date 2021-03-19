@@ -1,0 +1,6 @@
+type EventCaboodleQuery {
+  "Event members caboodle"
+  members: EventMembersCaboodleQuery @auth(requires: "admin")
+  "Event tickets caboodle"
+  tickets: EventTicketsCaboodleQuery @auth(requires: "admin")
+}

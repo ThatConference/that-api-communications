@@ -1,4 +1,4 @@
 type Mutation {
   "communication type mutations"
-  communications: communicationsMutation @auth(requires: "admin")
+  communications: CommunicationsMutation @auth(requires: "admin")
 }
