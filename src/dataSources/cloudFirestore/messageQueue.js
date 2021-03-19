@@ -3,17 +3,21 @@ import { utility } from '@thatconference/api';
 
 const dlog = debug('that:api:communications:dataSources:firebase:messageQueue');
 const { entityDateForge } = utility.firestoreDateForge;
-const msgQueueDateForge = entityDateForge({ fields: ['lastUpdatedAt'] });
+const msgQueuedOnLogDateForge = entityDateForge({ fields: ['createdAt'] });
 
 const collectionName = 'messageQueue';
+const queuedOnCollectionName = 'messageQueuedOnLog';
 
 const messageQueue = dbInstance => {
   dlog('messageQueue instance created');
 
   const msgQueueCollection = dbInstance.collection(collectionName);
+  const queuedOnCollection = dbInstance.collection(queuedOnCollectionName);
 
   function addOne(queueMessage) {
-    return msgQueueCollection.add(queueMessage);
+    return msgQueueCollection
+      .doc(queueMessage.messageQueueId)
+      .set(queueMessage);
   }
 
   function addMany(queueMessages) {
@@ -25,33 +29,70 @@ const messageQueue = dbInstance => {
 
     const batch = dbInstance.batch();
     queueMessages.forEach(q => {
-      const docRef = msgQueueCollection.doc();
+      const docRef = msgQueueCollection.doc(q.messageQueueId);
       batch.set(docRef, q);
     });
 
     return batch.commit();
   }
 
-  function updateOne(queueId, msgUpdate) {
-    return msgQueueCollection.doc(queueId, msgUpdate);
+  function findMessageQueuedOnLog({ eventId, thatMessageType }) {
+    return queuedOnCollection
+      .where('eventId', '==', eventId)
+      .where('thatMessageType', '==', thatMessageType)
+      .get()
+      .then(querySnap =>
+        querySnap.docs.map(d => {
+          const r = {
+            id: d.id,
+            ...d.data(),
+          };
+
+          return msgQueuedOnLogDateForge(r);
+        }),
+      );
   }
 
-  function updateMany(queueIds, msgUpdate) {
-    if (!Array.isArray(queueIds))
-      throw new Error('updateMany requires an array of queue ids');
-    if (queueIds.length > 500)
-      throw new Error('updateMany array too large, > 500');
+  function makeMessageQueuedOnLogId({ eventId, thatMessageType }) {
+    // `0` at end is iteration. for future use.
+    return `${eventId}|${thatMessageType}|0`;
+  }
 
-    const batch = dbInstance.batch();
-    queueIds.forEach(q => {
-      const docRef = msgQueueCollection(q);
-      batch.update(docRef, msgUpdate);
+  function addMessageQueuedOnLog({
+    eventId,
+    eventName,
+    thatMessageType,
+    messagesId,
+    sendOnDate,
+    addresseeCount,
+    addresseeUniqueCount,
+  }) {
+    const messageQueuedOnLogId = makeMessageQueuedOnLogId({
+      eventId,
+      thatMessageType,
     });
-
-    return batch.commit();
+    return queuedOnCollection
+      .doc(messageQueuedOnLogId)
+      .set({
+        eventId,
+        eventName,
+        thatMessageType,
+        messagesId,
+        sendOnDate,
+        addresseeCount,
+        addresseeUniqueCount,
+        createdAt: new Date(),
+      })
+      .then(() => messageQueuedOnLogId);
   }
 
-  return { addOne, addMany, updateOne, updateMany };
+  return {
+    addOne,
+    addMany,
+    findMessageQueuedOnLog,
+    makeMessageQueuedOnLogId,
+    addMessageQueuedOnLog,
+  };
 };
 
 export default messageQueue;

@@ -24,10 +24,12 @@ const queueMessageSchema = yup.object().shape({
       lastName: yup.string().min(0),
     }),
   }),
+  messageQueueId: yup.string().required(),
 });
 
 describe('createMessageQueue tests', () => {
   const event = {
+    id: 'h5OK0jZGJv6PEmiR4wGn',
     name: 'THAT Conference',
     startDate: new Date('2021-03-12T21:40:40.431Z'),
     endDate: new Date('2021-03-12T21:40:40.431Z'),
@@ -43,13 +45,7 @@ describe('createMessageQueue tests', () => {
     postmarkMessageType: 'TRANSACTIONAL',
   };
   const sendOnDate = new Date('2021-03-15T21:40:40.431Z');
-  const constants = {
-    THAT: {
-      MESSAGING: {
-        WRITE_QUEUE_RATE: 2,
-      },
-    },
-  };
+  const writeQueueRate = 2;
 
   describe('Queue messages and validate message objects', () => {
     describe('queue message checks', () => {
@@ -58,7 +54,7 @@ describe('createMessageQueue tests', () => {
         event,
         message,
         sendOnDate,
-        constants,
+        writeQueueRate,
       });
       it('queue will be the length of 3', () => {
         expect(result).toHaveLength(3);
@@ -72,12 +68,17 @@ describe('createMessageQueue tests', () => {
         result.forEach(q => {
           q.forEach(iq => {
             c += 1;
-            it(`validate message #${c}`, () =>
+            it(`yup validate message #${c}`, () =>
               expect(
                 queueMessageSchema
                   .validate(iq, { strict: true, abortEarly: true })
                   .then(() => true),
               ).resolves.toEqual(true));
+            const idPieces = `${event.id}|${iq.thatMessageType}|${iq.emailTo}`;
+            it(`validate message #${c} id`, () =>
+              expect(iq.messageQueueId).toBe(
+                Buffer.from(idPieces, 'utf-8').toString('base64'),
+              ));
           });
         });
       });

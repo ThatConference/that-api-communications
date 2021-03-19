@@ -10,7 +10,4 @@ const constants = {
   },
 };
 
-if (!constants.THAT.MESSAGING) constants.THAT.MESSAGING = {};
-constants.THAT.MESSAGING.WRITE_QUEUE_RATE = 100;
-
 export default constants;

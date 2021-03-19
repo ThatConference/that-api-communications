@@ -9,12 +9,13 @@ export default function createMessageQueue({
   event,
   message,
   sendOnDate,
-  constants,
+  messageQueuedOnLogId,
+  writeQueueRate,
 }) {
   const totalAddressees = addressees.length;
   dlog('number of addressees %d', totalAddressees);
 
-  const queueRate = constants.THAT.MESSAGING.WRITE_QUEUE_RATE;
+  const queueRate = writeQueueRate;
   dlog('queue rate %d', queueRate);
   const iterations = Math.ceil(totalAddressees / queueRate);
   const messageQueue = [];
@@ -69,10 +70,12 @@ export default function createMessageQueue({
         isSent: false,
         createdAt,
         sendOnDate,
+        messageQueuedOnLogId,
         queuedAt: null,
         isInError: false,
-        errorReason: null,
       };
+      const idPieces = `${event.id}|${message.messageType}|${msg.emailTo}`;
+      msg.messageQueueId = Buffer.from(idPieces, 'utf-8').toString('base64');
 
       iterationQueue.push(msg);
     }

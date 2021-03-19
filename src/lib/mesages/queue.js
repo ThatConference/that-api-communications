@@ -4,9 +4,9 @@ import debug from 'debug';
 import * as Sentry from '@sentry/node';
 import { dataSources } from '@thatconference/api';
 import messagesStore from '../../dataSources/cloudFirestore/messages';
-import msgQueueStore from '../../dataSources/cloudFirestore/messageQueue';
+import msgQueueFunc from '../../dataSources/cloudFirestore/messageQueue';
 import { fetchAddressees } from '../graphql/fetch';
-import constants from '../../constants';
+import envConfig from '../../envConfig';
 import determineSendOnDate from './determineSendOnDate';
 import createMessageQueue from './createMessageQueue';
 
@@ -23,6 +23,25 @@ export default async ({ eventId, messageType, firestore, thatApi }) => {
     messageQueueEventId: eventId,
     messageQueueMessageType: messageType,
   });
+
+  const msgQueueStore = msgQueueFunc(firestore);
+  const writeQueueRate = envConfig.messageQueueWriteRate;
+
+  // check if this event / thatMessageType has been queued already
+  const messageQueuedOn = await msgQueueStore.findMessageQueuedOnLog({
+    eventId,
+    thatMessageType: messageType,
+  });
+  if (messageQueuedOn.length > 0) {
+    Sentry.setContext('messagedQueuedOnLog', { messageQueuedOn });
+    const err = new Error(
+      `Message type ${messageType} has already been queued for event ${eventId}`,
+    );
+    Sentry.captureException(err);
+    throw err;
+  }
+
+  // get event
   const event = await eventStore(firestore).get(eventId);
   if (!event) {
     const err = new Error(`Unkown event id provided, ${eventId}`);
@@ -65,28 +84,52 @@ export default async ({ eventId, messageType, firestore, thatApi }) => {
     thatApi,
   });
 
+  const messageQueuedOnLogId = msgQueueStore.makeMessageQueuedOnLogId({
+    eventId,
+    thatMessageType: messageType,
+  });
+
   const messageQueue = createMessageQueue({
     addressees,
     event,
     message,
     sendOnDate,
-    constants,
+    messageQueuedOnLogId,
+    writeQueueRate,
   });
+
+  const uniqueCount = new Set();
+  messageQueue.forEach(q => q.forEach(i => uniqueCount.add(i.emailTo)));
+  const logPromise = msgQueueStore.addMessageQueuedOnLog({
+    eventId,
+    eventName: event.name,
+    thatMessageType: messageType,
+    messagesId: message.id,
+    sendOnDate,
+    addresseeCount: addressees.length,
+    addresseeUniqueCount: uniqueCount.size,
+  });
+
   // Send each messageQueue array of messages to Firestore via a batch
   let messageCount = 0;
   const queuePromises = messageQueue.map(iq => {
     messageCount += iq.length;
-    return msgQueueStore(firestore).addMany(iq);
+    return msgQueueStore.addMany(iq);
   });
 
   dlog('number of messages: %d', messageCount);
 
-  // this is good for efficiency, but not so good if one of the queues fail.
-  // the Promise.all will fail, but the requests are already sent to Firestore
-  // and may or may not complete.
-  // if there are 4 promises, how to determine which messages didn't make it?
-  // We can give a queue record a signature so it is idempontent and this can be
-  // run again. Assuming nothing has been sent to Postmark yet...
+  /*
+   * this is good for efficiency, but not so good if one of the queues fail.
+   * the Promise.all will fail, but the requests are already sent to Firestore
+   * and may or may not complete.
+   * To assist with troubleshooting each queued messaged has a unique signature
+   * this allows the batch to be rerun to reload ALL the data.
+   * This will resend emails if the queue has already been processed/read.
+   */
+
+  // add log creation promise to Promise array for effiency:
+  queuePromises.push(logPromise);
 
   return Promise.all(queuePromises).then(() => messageCount);
 };

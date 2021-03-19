@@ -13,9 +13,7 @@ describe('validate schema test', () => {
     process.env.INFLUX_BUCKET_ID = 'INFLUX_BUCKET_ID';
     process.env.INFLUX_HOST = 'INFLUX_HOST';
     process.env.POSTMARK_API_TOKEN = 'POSTMARK_API_TOKEN';
-    process.env.STRIPE_PUBLISHABLE_KEY = 'STRIPE_PUBLISHABLE_KEY';
-    process.env.STRIPE_SECRET_KEY = 'STRIPE_SECRET_KEY';
-    process.env.BOUNCER_BASE_URL = 'BOUNCER_BASE_URL';
+    process.env.THAT_API_GATEWAY = 'THAT_API_GATEWAY';
 
     resolvers = require('../../resolvers');
   });
