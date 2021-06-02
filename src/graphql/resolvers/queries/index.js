@@ -4,6 +4,7 @@ import { fieldResolvers as communicationFields } from './communications';
 import { fieldResolvers as communicationsMessagesFields } from './communicationsMessages';
 import { fieldResolvers as messageDefinitionFields } from './messageDefinition';
 import { fieldResolvers as eventAllocationFields } from './eventAllocation';
+import { fieldResolvers as eventOrderFields } from './eventOrder';
 import { fieldResolvers as caboodleFields } from './caboodle';
 import { fieldResolvers as eventCaboodleFields } from './eventCaboodle';
 import { fieldResolvers as eventMembersCaboodleFields } from './eventMembersCaboodle';
@@ -18,6 +19,7 @@ export const fieldResolvers = {
   ...communicationsMessagesFields,
   ...messageDefinitionFields,
   ...eventAllocationFields,
+  ...eventOrderFields,
   ...caboodleFields,
   ...eventCaboodleFields,
   ...eventMembersCaboodleFields,

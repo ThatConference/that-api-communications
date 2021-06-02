@@ -1,6 +1,6 @@
 {
   "name": "that-api-communications",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "THAT communications api. Where we keep in touch with you!",
   "main": "index.js",
   "engines": {

@@ -7,4 +7,6 @@ enum MessageType {
   THANK_YOU
   ACCEPTED
   REGRETS
+  AD_HOC_A
+  AD_HOC_B
 }

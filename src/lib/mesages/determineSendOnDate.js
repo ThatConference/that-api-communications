@@ -41,6 +41,12 @@ export default function determineSendOnDate({
     case 'REGRETS':
       sendOnDate = now + oneHour;
       break;
+    case 'AD_HOC_A':
+      sendOnDate = now + oneHour;
+      break;
+    case 'AD_HOC_B':
+      sendOnDate = now + oneHour;
+      break;
     default:
       throw new Error(
         `Unknown message type ${messageType}, unable to determine sendOn date`,

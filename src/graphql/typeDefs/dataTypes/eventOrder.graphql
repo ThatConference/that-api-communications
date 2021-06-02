@@ -1,0 +1,13 @@
+"Based off of OrderAllocation type, used for messaging list for an event"
+type EventOrder {
+  "The Order ID"
+  orderId: ID
+  "The event registered for"
+  event: Event!
+  "The member who purchased the order"
+  purchasedBy: Profile!
+  "Last time this order has been updated"
+  lastUpdatedAt: Date!
+  "The date the order was placed"
+  orderDate: Date!
+}
