@@ -1,5 +1,6 @@
 import debug from 'debug';
 import allocationStore from '../../../dataSources/cloudFirestore/orderAllocation';
+import orderStore from '../../../dataSources/cloudFirestore/order';
 
 const dlog = debug('that:api:communications:query:eventMembersCaboodle');
 
@@ -16,6 +17,10 @@ export const fieldResolvers = {
       return allocationStore(firestore).findNotAllocatedAllocationsByEvent(
         eventId,
       );
+    },
+    orderHolders: ({ eventId }, __, { dataSources: { firestore } }) => {
+      dlog('orderHolders resolvered called for %s, eventId');
+      return orderStore(firestore).findAllOrdersByEvent(eventId);
     },
   },
 };

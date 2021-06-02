@@ -6,7 +6,6 @@ import { security } from '@thatconference/api';
 import { isNil } from 'lodash';
 
 // Graph Types and Resolvers
-import DataLoader from 'dataloader';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 import directives from './directives';
@@ -39,7 +38,6 @@ const createServer = ({ dataSources }) => {
 
     dataSources: () => {
       dlog('creating dataSources');
-      const { firestore } = dataSources;
 
       return {
         ...dataSources,

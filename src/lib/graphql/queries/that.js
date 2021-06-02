@@ -52,6 +52,32 @@ const messageQuery = {
   }`,
     dataPath: 'data.caboodle.event.members.unregistered',
   },
+  orderHolders: {
+    gqlQuery: `query getOrderUsers($eventId: ID!) {
+      caboodle {
+        event(eventId: $eventId) {
+          members {
+            orderHolders {
+              orderId
+              event {
+                id
+                name
+              }
+              purchasedBy {
+                firstName
+                lastName
+                profileSlug
+                email
+              }
+              lastUpdatedAt
+              orderDate
+            }
+          }
+        }
+      }
+    }`,
+    dataPath: `data.caboodle.event.members.orderHolders`,
+  },
   subscriber: {
     gqlQuery: ``,
     dataPath: '',
@@ -70,6 +96,9 @@ export default dataSourceType => {
       break;
     case 'UNALLOCATED':
       query = messageQuery.unallocated;
+      break;
+    case 'ORDER_HOLDERS':
+      query = messageQuery.orderHolders;
       break;
     default:
       throw new Error(`Unknown dataSource type requested: ${dataSourceType}`);
