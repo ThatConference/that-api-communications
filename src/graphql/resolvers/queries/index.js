@@ -9,6 +9,8 @@ import { fieldResolvers as caboodleFields } from './caboodle';
 import { fieldResolvers as eventCaboodleFields } from './eventCaboodle';
 import { fieldResolvers as eventMembersCaboodleFields } from './eventMembersCaboodle';
 import { fieldResolvers as eventTicketsCaboodleFields } from './eventTicketsCaboodle';
+import { fieldResolvers as eventSessionCaboodleFields } from './eventSessionsCaboodle';
+import { fieldResolvers as speakerSessions } from './speakerSessions';
 
 export default {
   ...root,
@@ -24,4 +26,6 @@ export const fieldResolvers = {
   ...eventCaboodleFields,
   ...eventMembersCaboodleFields,
   ...eventTicketsCaboodleFields,
+  ...eventSessionCaboodleFields,
+  ...speakerSessions,
 };

@@ -3,4 +3,6 @@ type EventCaboodleQuery {
   members: EventMembersCaboodleQuery @auth(requires: "admin")
   "Event tickets caboodle"
   tickets: EventTicketsCaboodleQuery @auth(requires: "admin")
+  "Event sessions caboodle"
+  sessions: EventSessionsCaboodleQuery @auth(requires: "admin")
 }

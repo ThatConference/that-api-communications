@@ -1,3 +1,6 @@
+import messageQueue from '../../../dataSources/cloudFirestore/messageQueue';
+import sessionSelection from './sessionSelection';
+
 const messageQuery = {
   registered: {
     gqlQuery: `query getRegisteredUsers($eventId: ID!) {
@@ -86,6 +89,7 @@ const messageQuery = {
     gqlQuery: ``,
     dataPath: '',
   },
+  ...sessionSelection,
 };
 
 export default dataSourceType => {
@@ -99,6 +103,15 @@ export default dataSourceType => {
       break;
     case 'ORDER_HOLDERS':
       query = messageQuery.orderHolders;
+      break;
+    case 'ACCEPTED':
+      query = messageQuery.accepted;
+      break;
+    case 'REGRETS':
+      query = messageQuery.regrets;
+      break;
+    case 'WAIT_LIST':
+      query = messageQuery.waitListed;
       break;
     default:
       throw new Error(`Unknown dataSource type requested: ${dataSourceType}`);

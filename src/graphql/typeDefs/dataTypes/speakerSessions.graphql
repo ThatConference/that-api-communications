@@ -1,0 +1,4 @@
+type SpeakerSessions {
+  speaker: Profile!
+  sessions: [TheSessions]!
+}
