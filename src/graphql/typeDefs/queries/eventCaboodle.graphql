@@ -3,4 +3,7 @@ type EventCaboodleQuery {
   members: EventMembersCaboodleQuery @auth(requires: "admin")
   "Event tickets caboodle"
   tickets: EventTicketsCaboodleQuery @auth(requires: "admin")
+  "Event sessions caboodle. TargetLocation filter is optional"
+  sessions(targetLocation: TargetLocation): EventSessionsCaboodleQuery
+    @auth(requires: "admin")
 }

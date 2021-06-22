@@ -1,8 +1,16 @@
 import debug from 'debug';
 import dateformat from 'dateformat';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import tz from 'dayjs/plugin/timezone';
 import getObjectAtPath from '../getObjectAtPath';
 
 const dlog = debug('that:api:communications:lib:messages');
+dayjs.extend(utc);
+dayjs.extend(tz);
+// Tuesday 27 @ 10:30 AM
+const sessionDateFormatDayjs = 'dddd MMMM D @ h:mm A';
+const toTimeZone = 'America/Chicago';
 
 export default function createMessageQueue({
   addressees,
@@ -33,6 +41,8 @@ export default function createMessageQueue({
       const addressee = addressees[i * queueRate + j];
       const allocatedTo = addressee.allocatedTo || {};
       const purchasedBy = addressee.purchasedBy || {};
+      const speaker = addressee.speaker || {};
+      const sessions = addressee.sessions || [];
       const eventStartDate =
         event.startDate instanceof Date
           ? dateformat(event.startDate, dateFormatString)
@@ -58,6 +68,25 @@ export default function createMessageQueue({
           startDate: eventStartDate || '',
           endDate: eventEndDate || '',
         },
+        speaker: {
+          firstName: speaker.firstName || '',
+          lastName: speaker.lastName || '',
+          email: speaker.email || '',
+        },
+        sessions: sessions.map(s => ({
+          id: s.id,
+          slug: s.slug,
+          title: s.title,
+          type: s.type,
+          status: s.status,
+          startTime: s.startTime
+            ? dayjs(s.startTime).tz(toTimeZone).format(sessionDateFormatDayjs)
+            : 'TBD',
+          durationInMinutes: s.durationInMinutes,
+          location: s.location
+            ? s.location
+            : { destination: 'TBD', isOnline: 'TBD' },
+        })),
       };
       const msg = {
         emailTo:

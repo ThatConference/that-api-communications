@@ -1,0 +1,8 @@
+type EventSessionsCaboodleQuery {
+  "Sessions which have been accepted"
+  accepted: [SpeakerSessions]!
+  "Sessions not accepted"
+  regrets: [SpeakerSessions]!
+  "Sessions on a wait list"
+  waitListed: [SpeakerSessions]!
+}

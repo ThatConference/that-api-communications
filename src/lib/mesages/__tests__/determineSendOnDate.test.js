@@ -66,6 +66,28 @@ describe('test determineSendOnDate', () => {
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });
+    it(`calculates ACCEPTED_ONLINE (now + 1 hr)`, () => {
+      const nowlow = new Date().getTime() + 3600000;
+      const sendOn = determineSendOnDate({
+        startDate,
+        endDate,
+        messageType: 'ACCEPTED_ONLINE',
+      });
+      const nowhigh = new Date().getTime() + 3600000;
+      expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
+      expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
+    });
+    it(`calculates ACCEPTED_IN_PERSON (now + 1 hr)`, () => {
+      const nowlow = new Date().getTime() + 3600000;
+      const sendOn = determineSendOnDate({
+        startDate,
+        endDate,
+        messageType: 'ACCEPTED_IN_PERSON',
+      });
+      const nowhigh = new Date().getTime() + 3600000;
+      expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
+      expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
+    });
     it(`calculates REGRETS (a.k.a. regerts) (now + 1 hr)`, () => {
       const nowlow = new Date().getTime() + 3600000;
       const sendOn = determineSendOnDate({
@@ -77,25 +99,36 @@ describe('test determineSendOnDate', () => {
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });
-    it(`calculates AD_HOC_A (now + 1 hr)`, () => {
+    it(`calculates WAIT_LITED (now + 1 hr)`, () => {
       const nowlow = new Date().getTime() + 3600000;
       const sendOn = determineSendOnDate({
         startDate,
         endDate,
-        messageType: 'AD_HOC_A',
+        messageType: 'WAIT_LIST',
       });
       const nowhigh = new Date().getTime() + 3600000;
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });
-    it(`calculates AD_HOC_B (now + 1 hr)`, () => {
-      const nowlow = new Date().getTime() + 3600000;
+    it(`calculates AD_HOC_A (now + 1/2 hr)`, () => {
+      const nowlow = new Date().getTime() + 1800000;
+      const sendOn = determineSendOnDate({
+        startDate,
+        endDate,
+        messageType: 'AD_HOC_A',
+      });
+      const nowhigh = new Date().getTime() + 1800000;
+      expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
+      expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
+    });
+    it(`calculates AD_HOC_B (now + 1/2 hr)`, () => {
+      const nowlow = new Date().getTime() + 1800000;
       const sendOn = determineSendOnDate({
         startDate,
         endDate,
         messageType: 'AD_HOC_B',
       });
-      const nowhigh = new Date().getTime() + 3600000;
+      const nowhigh = new Date().getTime() + 1800000;
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });

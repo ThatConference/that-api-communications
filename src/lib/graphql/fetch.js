@@ -4,9 +4,14 @@ import getObjectAtPath from '../getObjectAtPath';
 
 const dlog = debug('that:api:communications:graphql:fetch');
 
-function fetchAddressees({ eventId, msgDataSource, thatApi }) {
+function fetchAddressees({
+  eventId,
+  msgDataSource,
+  thatApi,
+  addVariables = {},
+}) {
   dlog(
-    'fetchAddressees called for event %s with type %s',
+    'fetchAddressees called for event %s with datasource %s',
     eventId,
     msgDataSource,
   );
@@ -16,8 +21,10 @@ function fetchAddressees({ eventId, msgDataSource, thatApi }) {
     query: query.gqlQuery,
     variables: {
       eventId,
+      ...addVariables,
     },
   };
+
   return thatApi
     .postGraphQl(payload)
     .then(data => getObjectAtPath(data, query.dataPath));

@@ -1,0 +1,23 @@
+# TheSessions is a union of the following types.
+# Reference:  https://www.apollographql.com/docs/federation/value-types/#unions
+union TheSessions = Regular | OpenSpace | Keynote | Panel | Workshop
+
+extend type Regular @key(fields: "id") {
+  id: ID! @external
+}
+
+extend type OpenSpace @key(fields: "id") {
+  id: ID! @external
+}
+
+extend type Keynote @key(fields: "id") {
+  id: ID! @external
+}
+
+extend type Panel @key(fields: "id") {
+  id: ID! @external
+}
+
+extend type Workshop @key(fields: "id") {
+  id: ID! @external
+}

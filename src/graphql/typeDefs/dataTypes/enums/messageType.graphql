@@ -6,7 +6,13 @@ enum MessageType {
   WELCOME
   THANK_YOU
   ACCEPTED
+  "Accepted with target online"
+  ACCEPTED_ONLINE
+  "Accepted with target of in-person"
+  ACCEPTED_IN_PERSON
+  "Not accepted"
   REGRETS
+  WAIT_LIST
   AD_HOC_A
   AD_HOC_B
 }

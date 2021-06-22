@@ -3,4 +3,7 @@ enum MessageDataSource {
   REGISTERED
   UNALLOCATED
   ORDER_HOLDERS
+  ACCEPTED
+  REGRETS
+  WAIT_LIST
 }
