@@ -38,6 +38,12 @@ export default function determineSendOnDate({
     case 'ACCEPTED':
       sendOnDate = now + oneHour;
       break;
+    case 'ACCEPTED_ONLINE':
+      sendOnDate = now + oneHour;
+      break;
+    case 'ACCEPTED_IN_PERSON':
+      sendOnDate = now + oneHour;
+      break;
     case 'REGRETS':
       sendOnDate = now + oneHour;
       break;

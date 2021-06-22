@@ -1,10 +1,10 @@
 // Session selection message queries
 export default {
   accepted: {
-    gqlQuery: `query getAcceptedList($eventId: ID!) {
+    gqlQuery: `query getAcceptedList($eventId: ID!, $targetLocation: TargetLocation) {
       caboodle {
         event(eventId: $eventId) {
-          sessions {
+          sessions(targetLocation: $targetLocation) {
             accepted {
               speaker {
                 id
@@ -22,6 +22,12 @@ export default {
                   status
                   startTime
                   durationInMinutes
+                  location {
+                    destination
+                    digitalSign
+                    url
+                    isOnline
+                  }
                 }
               }
             }

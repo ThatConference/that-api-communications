@@ -7,6 +7,8 @@ input MessageDefinitionCreateInput {
   messageType: MessageType!
   "data source used for sending this message (ENUM)"
   dataSource: MessageDataSource!
+  "Additional variables to send to data source. JSON formatted object"
+  addVariables: String
   "Postmark template alias for message"
   postmarkAlias: String!
   "Message email type, e.g. transactional, broadcast, etc."
@@ -28,6 +30,8 @@ input MessageDefinitionUpdateInput {
   messageType: MessageType
   "data source used for sending this message (ENUM)"
   dataSource: MessageDataSource
+  "Additional variables to send to data source. JSON formatted object"
+  addVariables: String
   "Postmark template alias for message"
   postmarkAlias: String
   "Message email type, e.g. transactional, broadcast, etc."

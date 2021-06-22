@@ -13,11 +13,15 @@ export const fieldResolvers = {
       dlog('ticket called for event %s', eventId);
       return { eventId };
     },
-    sessions: async ({ eventId }, __, { dataSources: { firestore } }) => {
+    sessions: async (
+      { eventId },
+      { targetLocation },
+      { dataSources: { firestore } },
+    ) => {
       dlog('session called for event %s', eventId);
       const eventSessions = await sessionStore(
         firestore,
-      ).findAllSessionsForSelectionEmails(eventId);
+      ).findAllSessionsForSelectionEmails({ eventId, targetLocation });
 
       const acceptedMap = new Map();
       const regretsMap = new Map();

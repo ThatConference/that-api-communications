@@ -83,6 +83,9 @@ export default function createMessageQueue({
             ? dayjs(s.startTime).tz(toTimeZone).format(sessionDateFormatDayjs)
             : 'TBD',
           durationInMinutes: s.durationInMinutes,
+          location: s.location
+            ? s.location
+            : { destination: 'TBD', isOnline: 'TBD' },
         })),
       };
       const msg = {

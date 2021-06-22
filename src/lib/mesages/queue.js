@@ -71,6 +71,25 @@ export default async ({ eventId, messageType, firestore, thatApi }) => {
     throw err;
   }
   [message] = message;
+  dlog('message:: %O', message);
+
+  let addVariables = {};
+  if (message.addVariables) {
+    addVariables = JSON.parse(message.addVariables);
+    dlog('addVariables:: %o', addVariables);
+    if (typeof addVariables !== 'object' || Array.isArray(addVariables)) {
+      Sentry.configureScope(scope => {
+        scope.setTag('messageType', messageType);
+        scope.setContext('message', JSON.stringify(message));
+        scope.setContext('addVariables', addVariables);
+        Sentry.captureMessage(
+          'Messages Additional Variables did not parse to an object. It will be ignored',
+          Sentry.Severity.Info,
+        );
+      });
+      addVariables = {};
+    }
+  }
 
   const sendOnDate = determineSendOnDate({
     startDate: event.startDate,
@@ -82,6 +101,7 @@ export default async ({ eventId, messageType, firestore, thatApi }) => {
     eventId,
     msgDataSource: message.dataSource,
     thatApi,
+    addVariables,
   });
 
   // Messages have unique id's in the `messageQueue` collection.
