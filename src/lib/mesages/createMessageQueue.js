@@ -64,6 +64,7 @@ export default function createMessageQueue({
           email: purchasedBy.email || '',
         },
         event: {
+          id: event.id || '',
           name: event.name || '',
           startDate: eventStartDate || '',
           endDate: eventEndDate || '',
