@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import 'dotenv/config';
 import express from 'express';
 import debug from 'debug';
@@ -107,6 +108,16 @@ function failure(err, req, res, next) {
 
 api.use(responseTime()).use(useSentry).use(createUserContext).use(failure);
 
-graphServer.applyMiddleware({ app: api, path: '/' });
-
-export const handler = api;
+const port = process.env.PORT || 8006;
+graphServer
+  .start()
+  .then(() => {
+    graphServer.applyMiddleware({ app: api, path: '/' });
+    api.listen({ port }, () =>
+      console.log(`✨Communications 🛰 is running 🏃‍♂️ on port 🚢 ${port}`),
+    );
+  })
+  .catch(err => {
+    console.log(`graphServer.start() error 💥: ${err.message}`);
+    throw err;
+  });
