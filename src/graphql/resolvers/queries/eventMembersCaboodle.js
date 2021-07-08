@@ -12,11 +12,16 @@ export const fieldResolvers = {
         eventId,
       );
     },
-    unregistered: ({ eventId }, __, { dataSources: { firestore } }) => {
+    unregistered: (
+      { eventId },
+      { productTypes },
+      { dataSources: { firestore } },
+    ) => {
       dlog('unregistered resolver called for %s', eventId);
-      return allocationStore(firestore).findNotAllocatedAllocationsByEvent(
+      return allocationStore(firestore).findNotAllocatedAllocationsByEvent({
         eventId,
-      );
+        productTypes,
+      });
     },
     orderHolders: ({ eventId }, __, { dataSources: { firestore } }) => {
       dlog('orderHolders resolvered called for %s, eventId');

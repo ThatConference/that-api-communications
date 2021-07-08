@@ -14,21 +14,28 @@ const orderAllocation = dbInstance => {
 
   const oaCollection = dbInstance.collection(collectionName);
 
-  function findAllAllocationsByEvent(eventId) {
-    dlog('findAllAllocationsByEvent called for %s', eventId);
-    return oaCollection
-      .where('event', '==', eventId || '')
-      .get()
-      .then(querySnap =>
-        querySnap.docs.map(d => {
-          const r = {
-            id: d.id,
-            ...d.data(),
-          };
+  function findAllAllocationsByEvent({ eventId, productTypes }) {
+    dlog('findAllAllocationsByEventFiltered, %s, %o', eventId, productTypes);
+    let query = oaCollection.where('event', '==', eventId || '');
 
-          return allocationDateForge(r);
-        }),
+    if (productTypes && !Array.isArray(productTypes))
+      throw new Error(
+        'When provided productTypes parameter must be in the form of an array',
       );
+    else if (productTypes && Array.isArray(productTypes)) {
+      query = query.where('productType', 'in', productTypes);
+    }
+
+    return query.get().then(querySnap =>
+      querySnap.docs.map(d => {
+        const r = {
+          id: d.id,
+          ...d.data(),
+        };
+
+        return allocationDateForge(r);
+      }),
+    );
   }
 
   function findIsAllocatedAllocationsByEvent(eventId) {
@@ -49,22 +56,33 @@ const orderAllocation = dbInstance => {
       );
   }
 
-  function findNotAllocatedAllocationsByEvent(eventId) {
-    dlog('findNotAllocatedAllocationsByEvent called for %s', eventId);
-    return oaCollection
+  function findNotAllocatedAllocationsByEvent({ eventId, productTypes }) {
+    dlog(
+      'findNotAllocatedAllocationsByEvent called for %s for products %o',
+      eventId,
+      productTypes,
+    );
+    let query = oaCollection
       .where('event', '==', eventId || '')
-      .where('isAllocated', '==', false)
-      .get()
-      .then(querySnap =>
-        querySnap.docs.map(d => {
-          const r = {
-            id: d.id,
-            ...d.data(),
-          };
-
-          return allocationDateForge(r);
-        }),
+      .where('isAllocated', '==', false);
+    if (productTypes && !Array.isArray(productTypes))
+      throw new Error(
+        'When provided productTypes parameter must be in the form of an array',
       );
+    else if (productTypes && Array.isArray(productTypes)) {
+      query = query.where('productType', 'in', productTypes);
+    }
+
+    return query.get().then(querySnap =>
+      querySnap.docs.map(d => {
+        const r = {
+          id: d.id,
+          ...d.data(),
+        };
+
+        return allocationDateForge(r);
+      }),
+    );
   }
 
   return {

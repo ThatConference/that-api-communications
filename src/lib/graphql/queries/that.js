@@ -1,4 +1,3 @@
-import messageQueue from '../../../dataSources/cloudFirestore/messageQueue';
 import sessionSelection from './sessionSelection';
 
 const messageQuery = {
