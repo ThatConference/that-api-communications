@@ -110,6 +110,17 @@ describe('test determineSendOnDate', () => {
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });
+    it(`calculates UNALLOCATED_TICKETS (now + 1/2 hr)`, () => {
+      const nowlow = new Date().getTime() + 1800000;
+      const sendOn = determineSendOnDate({
+        startDate,
+        endDate,
+        messageType: 'UNALLOCATED_TICKETS',
+      });
+      const nowhigh = new Date().getTime() + 1800000;
+      expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
+      expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
+    });
     it(`calculates AD_HOC_A (now + 1/2 hr)`, () => {
       const nowlow = new Date().getTime() + 1800000;
       const sendOn = determineSendOnDate({

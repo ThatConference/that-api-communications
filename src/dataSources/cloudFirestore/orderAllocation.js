@@ -62,6 +62,8 @@ const orderAllocation = dbInstance => {
       eventId,
       productTypes,
     );
+    // TODO: future when `status` is on all records
+    // don't include REFUNDED orderAllocations
     let query = oaCollection
       .where('event', '==', eventId || '')
       .where('isAllocated', '==', false);

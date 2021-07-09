@@ -50,6 +50,9 @@ export default function determineSendOnDate({
     case 'WAIT_LIST':
       sendOnDate = now + oneHour;
       break;
+    case 'UNALLOCATED_TICKETS':
+      sendOnDate = now + halfHour;
+      break;
     case 'AD_HOC_A':
       sendOnDate = now + halfHour;
       break;

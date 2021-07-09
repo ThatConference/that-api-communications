@@ -80,6 +80,42 @@ const messageQuery = {
     }`,
     dataPath: `data.caboodle.event.members.orderHolders`,
   },
+  unallocatedTickets: {
+    gqlQuery: `query getUnallocatedAllocations($eventId: ID!) {
+      caboodle {
+        event(eventId: $eventId) {
+          members {
+            unregistered(productTypes: [TICKET, TRAINING]) {
+              event {
+                name
+              }
+              isAllocated
+              hasCheckedIn
+              lastUpdatedAt
+              allocatedTo {
+                id
+                firstName
+              }
+              purchasedBy {
+                id
+                firstName
+                lastName
+                email
+              }
+              product {
+                __typename
+                ... on Ticket {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }`,
+    dataPath: 'data.caboodle.event.members.unregistered',
+  },
   subscriber: {
     gqlQuery: ``,
     dataPath: '',
@@ -111,6 +147,9 @@ export default dataSourceType => {
       break;
     case 'WAIT_LIST':
       query = messageQuery.waitListed;
+      break;
+    case 'UNALLOCATED_TICKETS':
+      query = messageQuery.unallocatedTickets;
       break;
     default:
       throw new Error(`Unknown dataSource type requested: ${dataSourceType}`);
