@@ -5,6 +5,29 @@ const dlog = debug('that:api:communications:query:eventTicketsCaboodle');
 
 export const fieldResolvers = {
   EventTicketsCaboodleQuery: {
+    all: ({ eventId }, { productTypes }, { dataSources: { firestore } }) => {
+      dlog(
+        'all allocations for event %s with product types %o',
+        eventId,
+        productTypes,
+      );
+      // get's all allocations for event
+      return allocationStore(firestore)
+        .findAllAllocationsByEvent({
+          eventId,
+          productTypes,
+        })
+        .then(data => {
+          // deduplicate purchasers and allocated to id's
+          dlog('OrderAllocation Count: %d', data.length);
+          const attendees = new Set();
+          data.forEach(oa => {
+            attendees.add(oa.purchasedBy);
+            if (oa.allocatedTo) attendees.add(oa.allocatedTo);
+          });
+          return [...attendees].map(id => ({ id }));
+        });
+    },
     allocated: ({ eventId }, __, { dataSources: { firestore } }) => {
       dlog('allocated resolver called for %s', eventId);
       // return allocationStore(firestore).findIsAllocatedAllocationsByEvent(

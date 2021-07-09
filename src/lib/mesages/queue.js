@@ -104,13 +104,13 @@ export default async ({ eventId, messageType, firestore, thatApi }) => {
     addVariables,
   });
 
-  // Messages have unique id's in the `messageQueue` collection.
-  // This deduplicates the messages.
   const messageQueuedOnLogId = msgQueueStore.makeMessageQueuedOnLogId({
     eventId,
     thatMessageType: messageType,
   });
 
+  // Messages have unique id's in the `messageQueue` collection.
+  // This deduplicates the messages.
   const messageQueue = createMessageQueue({
     addressees,
     event,

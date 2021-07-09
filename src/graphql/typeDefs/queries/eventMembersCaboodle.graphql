@@ -2,7 +2,7 @@ type EventMembersCaboodleQuery {
   "query of registered members of the event"
   registered: [EventAllocation!]!
   "query of members with unallocated ticket(s) for the event"
-  unregistered: [EventAllocation!]!
+  unregistered(productTypes: [ProductType]): [EventAllocation!]!
   "query of members who have created orders"
   orderHolders: [EventOrder!]!
 }

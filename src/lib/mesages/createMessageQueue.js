@@ -104,8 +104,9 @@ export default function createMessageQueue({
         queuedAt: null,
         isInError: false,
       };
-      const idPieces = `${event.id}|${message.messageType}|${msg.emailTo}`;
-      msg.messageQueueId = Buffer.from(idPieces, 'utf-8').toString('base64');
+      // `0` added to id for future use.
+      // This known id format dedupes messages by email. Causes extra writes to db.
+      msg.messageQueueId = `${event.id}|${message.messageType}|${msg.emailTo}|0`;
 
       iterationQueue.push(msg);
     }

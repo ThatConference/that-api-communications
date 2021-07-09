@@ -6,4 +6,6 @@ enum MessageDataSource {
   ACCEPTED
   REGRETS
   WAIT_LIST
+  "All orders which have unallocated tickets or training products"
+  UNALLOCATED_TICKETS
 }

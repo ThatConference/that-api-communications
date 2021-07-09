@@ -74,11 +74,9 @@ describe('createMessageQueue tests', () => {
                   .validate(iq, { strict: true, abortEarly: true })
                   .then(() => true),
               ).resolves.toEqual(true));
-            const idPieces = `${event.id}|${iq.thatMessageType}|${iq.emailTo}`;
+            const idPieces = `${event.id}|${iq.thatMessageType}|${iq.emailTo}|0`;
             it(`validate message #${c} id`, () =>
-              expect(iq.messageQueueId).toBe(
-                Buffer.from(idPieces, 'utf-8').toString('base64'),
-              ));
+              expect(iq.messageQueueId).toBe(idPieces));
           });
         });
       });

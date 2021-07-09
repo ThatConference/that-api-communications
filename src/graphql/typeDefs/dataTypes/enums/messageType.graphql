@@ -13,6 +13,10 @@ enum MessageType {
   "Not accepted"
   REGRETS
   WAIT_LIST
+  "Orders with unallocated TICKETS or TRAINING products"
+  UNALLOCATED_TICKETS
+  "An anything ad-hoc message"
   AD_HOC_A
+  "an anything ad-hoc message"
   AD_HOC_B
 }
