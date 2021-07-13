@@ -22,8 +22,10 @@ export const fieldResolvers = {
           dlog('OrderAllocation Count: %d', data.length);
           const attendees = new Set();
           data.forEach(oa => {
-            attendees.add(oa.purchasedBy);
-            if (oa.allocatedTo) attendees.add(oa.allocatedTo);
+            if (!oa.status || oa.status !== 'REFUNDED') {
+              attendees.add(oa.purchasedBy);
+              if (oa.allocatedTo) attendees.add(oa.allocatedTo);
+            }
           });
           return [...attendees].map(id => ({ id }));
         });
