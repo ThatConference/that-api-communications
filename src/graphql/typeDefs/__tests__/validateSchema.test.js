@@ -5,9 +5,11 @@
 import { buildFederatedSchema } from '@apollo/federation';
 import typeDefs from '../../typeDefs';
 let resolvers;
+let originalEnv;
 
 describe('validate schema test', () => {
   beforeAll(() => {
+    originalEnv = process.env;
     process.env.INFLUX_TOKEN = 'TEST_INFLUX_TOKEN_VALUE';
     process.env.INFLUX_ORG_ID = 'TEST_INFLUX_ORG_ID_VALUE';
     process.env.INFLUX_BUCKET_ID = 'INFLUX_BUCKET_ID';
