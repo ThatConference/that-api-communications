@@ -1,6 +1,6 @@
 # THAT gateway Dockerfile
 
-FROM 14-alpine3.14
+FROM node:14-alpine3.14
 
 # Create and change to app directory
 WORKDIR /usr/src/that
