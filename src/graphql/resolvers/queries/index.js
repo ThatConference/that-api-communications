@@ -13,7 +13,8 @@ import { fieldResolvers as eventSessionCaboodleFields } from './eventSessionsCab
 import { fieldResolvers as speakerSessionsFields } from './speakerSessions';
 import { fieldResolvers as newsFields } from './news';
 import { fieldResolvers as newsPostFields } from './newsPost';
-import { fieldResolvers as meNewsPostFields } from './meNews';
+import { fieldResolvers as newsMePostFields } from './newsMe';
+import { fieldResolvers as newsAdminFields } from './newsAdmin';
 
 export default {
   ...root,
@@ -33,5 +34,6 @@ export const fieldResolvers = {
   ...speakerSessionsFields,
   ...newsFields,
   ...newsPostFields,
-  ...meNewsPostFields,
+  ...newsMePostFields,
+  ...newsAdminFields,
 };

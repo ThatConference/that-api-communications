@@ -5,11 +5,11 @@ const dlog = debug('that:api:communications:mutation:news');
 
 export const fieldResolvers = {
   NewsMutation: {
-    newsPost: (_, { id }, { dataSources: { firestore }, user }) => {
+    newsPost: (_, { id }, { dataSources: { firestore } }) => {
       dlog('newsPost mutation on newsPost: %s', id);
       return newsStore(firestore)
         .get(id)
-        .then(newsPost => ({ newsPost, user }));
+        .then(newsPost => ({ newsPost }));
     },
     create: (_, { newsPost }, { dataSources: { firestore }, user }) => {
       dlog('create newspost %o', newsPost);

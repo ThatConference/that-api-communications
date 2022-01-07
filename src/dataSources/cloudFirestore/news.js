@@ -98,7 +98,10 @@ const news = dbInstance => {
     /**
      * You cannot have inequality filters on more than one field in firestore
      * In our case createdAt and approvedBy, or approvedAt so we need to filter
-     * out the approval after the fact.
+     * out the approval after the fact. Yes this will throw off the number of records
+     * returned, meaning less than the page number, though that is fine for now.
+     * To add a boolean, e.g. isApproved, would allow the query as it is an equality filter
+     * thought it would also require another compound index.
      * https://cloud.google.com/appengine/docs/standard/go111/datastore/query-restrictions
      */
     let query = newsCollection;

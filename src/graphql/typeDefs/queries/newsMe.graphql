@@ -1,4 +1,4 @@
-type MeNewsQuery {
+type NewsMeQuery {
   "all posts of logged in member. Page size default 20, max: 100"
   all(pageSize: Int, cursor: String): PagedNewsPost! @auth(requires: "members")
   "a specific post for logged in member"

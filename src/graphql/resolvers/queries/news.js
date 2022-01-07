@@ -5,20 +5,6 @@ const dlog = debug('that:api:communications:query:news');
 
 export const fieldResolvers = {
   NewsQuery: {
-    all: (
-      _,
-      { dateFrom, dateTo, pageSize, cursor },
-      { dataSources: { firestore } },
-    ) => {
-      dlog('all requested');
-      return newsStore(firestore).findPaged({
-        dateFrom,
-        dateTo,
-        pageSize,
-        cursor,
-        isApprovedOnly: false,
-      });
-    },
     approved: (
       _,
       { dateFrom, dateTo, pageSize, cursor },
@@ -41,10 +27,6 @@ export const fieldResolvers = {
       dlog('approved post requested %s', id);
       return newsStore(firestore).getApproved(id);
     },
-    post: (_, { id }, { dataSources: { firestore } }) => {
-      dlog('post requested %s', id);
-      return newsStore(firestore).get(id);
-    },
     postsByMember: (
       _,
       { memberId, pageSize, cursor },
@@ -62,5 +44,6 @@ export const fieldResolvers = {
       });
     },
     me: () => ({}),
+    admin: () => ({}),
   },
 };

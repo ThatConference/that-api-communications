@@ -4,7 +4,7 @@ import newsStore from '../../../dataSources/cloudFirestore/news';
 const dlog = debug('that:api:communications:query:me:news');
 
 export const fieldResolvers = {
-  MeNewsQuery: {
+  NewsMeQuery: {
     all: (_, { pageSize, cursor }, { dataSources: { firestore }, user }) => {
       dlog('all me posts requested');
       const maxPageSize = 100;
