@@ -3,4 +3,6 @@ type Query {
   communications: CommunicationsQuery
   "kit and caboodle all the datas :)"
   caboodle: CaboodleQuery @auth(requires: "admin")
+  "Industry news curated by the community"
+  news: NewsQuery
 }

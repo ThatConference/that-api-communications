@@ -1,0 +1,17 @@
+input NewsPostCreateInput {
+  "URL of the news article/reference"
+  url: URL!
+  "Description of the new article/reference"
+  description: String!
+  "High-level subject tags"
+  tags: [String]!
+}
+
+input NewsPostUpdateInput {
+  "URL of the news article/reference"
+  url: URL
+  "Description of the new article/reference"
+  description: String
+  "High-level subject tags"
+  tags: [String]
+}

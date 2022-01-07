@@ -7,6 +7,10 @@ const resolvers = {
     dlog('root communications mutation called');
     return {};
   },
+  news: () => {
+    dlog('root news mutation called');
+    return {};
+  },
 };
 
 export default resolvers;

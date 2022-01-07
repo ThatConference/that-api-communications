@@ -1,6 +1,6 @@
 {
   "name": "that-api-communications",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "THAT communications api. Where we keep in touch with you!",
   "main": "index.js",
   "engines": {
@@ -22,10 +22,10 @@
   "dependencies": {
     "@apollo/federation": "0.22.0",
     "@google-cloud/firestore": "^4.15.1",
-    "@graphql-tools/load-files": "6.3.1",
+    "@graphql-tools/load-files": "6.2.7",
     "@graphql-tools/merge": "6.2.10",
     "@sentry/node": "^6.13.3",
-    "@thatconference/api": "~2.2.1",
+    "@thatconference/api": "~2.6.0",
     "@thatconference/schema": "^1.4.0",
     "apollo-datasource-rest": "^0.14.0",
     "apollo-server-express": "2.22.2",
@@ -35,7 +35,7 @@
     "debug": "^4.3.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "graphql": "^15.6.1",
+    "graphql": "^15.8.0",
     "graphql-scalars": "^1.12.0",
     "graphql-type-json": "^0.3.2",
     "lodash": "^4.17.21",

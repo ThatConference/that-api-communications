@@ -11,6 +11,10 @@ const resolvers = {
     dlog('root caboodle called');
     return {};
   },
+  news: () => {
+    dlog('root news called');
+    return {};
+  },
 };
 
 export default resolvers;

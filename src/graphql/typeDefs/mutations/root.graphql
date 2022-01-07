@@ -1,4 +1,6 @@
 type Mutation {
   "communication type mutations"
   communications: CommunicationsMutation @auth(requires: "admin")
+  "Industry news curated by the community"
+  news: NewsMutation @auth(requires: "members")
 }

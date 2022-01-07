@@ -1,0 +1,31 @@
+type NewsQuery {
+  """
+  Returns all posts regardless of approval status (admin)
+  All inputs optional. Results in chronological descending order.
+  Default page size: 100, no maximum
+  """
+  all(
+    dateFrom: Date
+    dateTo: Date
+    pageSize: Int
+    cursor: String
+  ): PagedNewsPost! @auth(requires: "admin")
+  "Returns requested post of any approval status (admin)"
+  post(id: ID!): NewsPost @auth(requires: "admin")
+  """
+  Returns approved posts in descending order
+  Default page size: 100, maximum: 500
+  """
+  approved(
+    dateFrom: Date
+    dateTo: Date
+    pageSize: Int
+    cursor: String
+  ): PagedNewsPost!
+  "Returns requested post only if Approved"
+  approvedPost(id: ID!): NewsPost
+  "find all posts for a member. Default pageSize 20, max: 100"
+  postsByMember(memberId: ID!, pageSize: Int, cursor: String): PagedNewsPost
+  "logged in member specific news post queries"
+  me: MeNewsQuery @auth(requires: "members")
+}

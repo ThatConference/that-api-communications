@@ -2,8 +2,12 @@ import { ApolloServer, SchemaDirectiveVisitor } from 'apollo-server-express';
 import { buildFederatedSchema } from '@apollo/federation';
 import debug from 'debug';
 import * as Sentry from '@sentry/node';
-import { security } from '@thatconference/api';
+import {
+  security,
+  dataSources as thatApiDataSources,
+} from '@thatconference/api';
 import { isNil } from 'lodash';
+import DataLoader from 'dataloader';
 
 // Graph Types and Resolvers
 import typeDefs from './typeDefs';
@@ -13,6 +17,7 @@ import ThatApi from '../dataSources/rest/thatApi';
 
 const dlog = debug('that:api:communications:graphServer');
 const jwtClient = security.jwt();
+const memberStore = thatApiDataSources.cloudFirestore.member;
 
 /**
  * will create you a configured instance of an apollo gateway
@@ -38,9 +43,32 @@ const createServer = ({ dataSources }) => {
 
     dataSources: () => {
       dlog('creating dataSources');
+      const { firestore } = dataSources;
+
+      const memberLoader = new DataLoader(ids =>
+        memberStore(firestore)
+          .getSecureBatch(ids)
+          .then(members => {
+            if (members.includes(null)) {
+              Sentry.withScope(scope => {
+                scope.setLevel('error');
+                scope.setContext(
+                  `Members requested in memberLoader don't exist in member collection`,
+                  { ids },
+                  { members },
+                );
+                Sentry.captureMessage(
+                  `Members requested in memberLoader don't exist in member collection`,
+                );
+              });
+            }
+            return ids.map(id => members.find(m => m && m.id === id));
+          }),
+      );
 
       return {
         ...dataSources,
+        memberLoader,
         thatApi: new ThatApi(),
       };
     },
