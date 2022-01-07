@@ -11,11 +11,12 @@ export const fieldResolvers = {
       { dataSources: { firestore }, user },
     ) => {
       dlog('admin update called on %s', currentNewsPost?.id);
+      if (!currentNewsPost) return null;
 
       return newsStore(firestore).update({
         newsPostId: currentNewsPost.id,
         newsPost,
-        userId: user.sub,
+        memberId: user.sub,
       });
     },
     approve: ({ newsPost }, __, { dataSources: { firestore }, user }) => {
@@ -24,7 +25,7 @@ export const fieldResolvers = {
 
       return newsStore(firestore).approve({
         newsPostId: newsPost.id,
-        userId: user.sub,
+        memberId: user.sub,
       });
     },
     unapprove: ({ newsPost }, __, { dataSources: { firestore }, user }) => {
@@ -33,7 +34,7 @@ export const fieldResolvers = {
 
       return newsStore(firestore).unapprove({
         newsPostId: newsPost.id,
-        userId: user.sub,
+        memberId: user.sub,
       });
     },
   },

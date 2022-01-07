@@ -13,7 +13,7 @@ export const fieldResolvers = {
     },
     create: (_, { newsPost }, { dataSources: { firestore }, user }) => {
       dlog('create newspost %o', newsPost);
-      return newsStore(firestore).create({ newsPost, userId: user.sub });
+      return newsStore(firestore).create({ newsPost, memberId: user.sub });
     },
   },
 };

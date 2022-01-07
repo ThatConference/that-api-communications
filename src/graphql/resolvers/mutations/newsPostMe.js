@@ -17,7 +17,7 @@ export const fieldResolvers = {
       return newsStore(firestore).update({
         newsPostId: currentNewsPost.id,
         newsPost,
-        userId: user.sub,
+        memberId: user.sub,
       });
     },
   },

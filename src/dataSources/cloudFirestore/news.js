@@ -6,20 +6,20 @@ const { entityDateForge } = utility.firestoreDateForge;
 const fields = ['createdAt', 'approvedAt', 'lastUpdatedAt'];
 const newsDateForge = entityDateForge({ fields });
 
-function scrubNewsPost({ newsPost, isNew = false, userId }) {
+function scrubNewsPost({ newsPost, isNew = false, memberId }) {
   const scrubbedNewsPost = newsPost;
   const now = new Date();
 
   if (isNew) {
     scrubbedNewsPost.createdAt = now;
-    scrubbedNewsPost.createdBy = userId;
+    scrubbedNewsPost.createdBy = memberId;
     scrubbedNewsPost.approvedAt = null;
     scrubbedNewsPost.approvedBy = null;
     // isApproved field needed for inequality filter restriction in firestore
     scrubbedNewsPost.isApproved = false;
   }
   scrubbedNewsPost.lastUpdatedAt = now;
-  scrubbedNewsPost.lastUpdatedBy = userId;
+  scrubbedNewsPost.lastUpdatedBy = memberId;
   if (scrubbedNewsPost?.url?.href)
     scrubbedNewsPost.url = scrubbedNewsPost.url.href;
 
@@ -276,35 +276,35 @@ const news = dbInstance => {
       });
   }
 
-  function create({ newsPost, userId }) {
+  function create({ newsPost, memberId }) {
     dlog('creating new newsPost: %o', newsPost);
-    const scrubbedPost = scrubNewsPost({ newsPost, isNew: true, userId });
+    const scrubbedPost = scrubNewsPost({ newsPost, isNew: true, memberId });
 
     return newsCollection.add(scrubbedPost).then(newDoc => get(newDoc.id));
   }
 
-  function update({ newsPostId, newsPost, userId }) {
+  function update({ newsPostId, newsPost, memberId }) {
     dlog('updating newsPost: %s, %o', newsPostId, newsPost);
-    scrubNewsPost({ newsPost, isNew: false, userId });
+    scrubNewsPost({ newsPost, isNew: false, memberId });
     const docRef = newsCollection.doc(newsPostId);
 
     return docRef.update(newsPost).then(() => get(docRef.id));
   }
 
-  function approve({ newsPostId, userId }) {
+  function approve({ newsPostId, memberId }) {
     dlog('approving %s', newsPostId);
     const docRef = newsCollection.doc(newsPostId);
 
     return docRef
       .update({
         approvedAt: new Date(),
-        approvedBy: userId,
+        approvedBy: memberId,
         isApproved: true,
       })
       .then(() => get(docRef.id));
   }
 
-  function unapprove({ newsPostId, userId }) {
+  function unapprove({ newsPostId, memberId }) {
     dlog('unapproving %s', newsPostId);
     const docRef = newsCollection.doc(newsPostId);
 
@@ -313,7 +313,7 @@ const news = dbInstance => {
         approvedAt: null,
         approvedBy: null,
         isApproved: false,
-        lastUpdatedBy: userId,
+        lastUpdatedBy: memberId,
       })
       .then(() => get(docRef.id));
   }

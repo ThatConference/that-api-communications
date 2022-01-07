@@ -1,5 +1,5 @@
 type PagedNewsPost {
   newsPosts: [NewsPost]!
   cursor: String!
-  count: Int
+  count: Int!
 }
