@@ -15,6 +15,8 @@ function scrubNewsPost({ newsPost, isNew = false, userId }) {
     scrubbedNewsPost.createdBy = userId;
     scrubbedNewsPost.approvedAt = null;
     scrubbedNewsPost.approvedBy = null;
+    // isApproved field needed for inequality filter restriction in firestore
+    scrubbedNewsPost.isApproved = false;
   }
   scrubbedNewsPost.lastUpdatedAt = now;
   scrubbedNewsPost.lastUpdatedBy = userId;
@@ -49,7 +51,8 @@ const news = dbInstance => {
   function findApproved() {
     dlog('find approved news posts');
     return newsCollection
-      .where('approvedAt', '!=', null)
+      .where('isApproved', '==', true)
+      .orderBy('createdAt', 'desc')
       .get()
       .then(qrySnap =>
         qrySnap.docs.map(n => {
@@ -73,20 +76,28 @@ const news = dbInstance => {
     let theLastDoc = null;
     if (cursor) {
       const curObject = Buffer.from(cursor, 'base64').toString('utf-8');
-      const { curDateFrom, curDateTo, curPageSize, curLastDoc } =
-        JSON.parse(curObject);
-      dlog(
-        'decoded cursor dateFrom %s, dateTo %s, pageSize %d, lastDoc %s',
+      const {
         curDateFrom,
         curDateTo,
         curPageSize,
+        curIsApprovedOnly,
+        curLastDoc,
+      } = JSON.parse(curObject);
+      dlog(
+        'decoded cursor dateFrom %s, dateTo %s, pageSize %d, isApproved %o, lastDoc %s',
+        curDateFrom,
+        curDateTo,
+        curPageSize,
+        curIsApprovedOnly,
         curLastDoc,
       );
 
       if (
         curDateFrom !== dateFrom ||
         curDateTo !== dateTo ||
-        curPageSize !== pageSize
+        curPageSize !== pageSize ||
+        curIsApprovedOnly !== isApprovedOnly ||
+        curLastDoc === null
       ) {
         throw new Error(
           `Invalid cursor provided, value mismatches. Values should remain the same when passing in a cursor.`,
@@ -98,34 +109,28 @@ const news = dbInstance => {
     /**
      * You cannot have inequality filters on more than one field in firestore
      * In our case createdAt and approvedBy, or approvedAt so we need to filter
-     * out the approval after the fact. Yes this will throw off the number of records
-     * returned, meaning less than the page number, though that is fine for now.
-     * To add a boolean, e.g. isApproved, would allow the query as it is an equality filter
-     * thought it would also require another compound index.
+     * out the approval after the fact which leads to paging issues.
+     * isApproved boolean added to have an equality filter for posts
      * https://cloud.google.com/appengine/docs/standard/go111/datastore/query-restrictions
      */
     let query = newsCollection;
+    if (isApprovedOnly === true)
+      query = query.where('isApproved', '==', isApprovedOnly);
     if (dateFrom) query = query.where('createdAt', '>=', new Date(dateFrom));
     if (dateTo) query = query.where('createdAt', '<=', new Date(dateTo));
     query = query.orderBy('createdAt', 'desc').limit(pageSize);
     if (theLastDoc) query = query.startAfter(new Date(theLastDoc));
 
     return query.get().then(qrySnap => {
-      dlog('found %d approved posts', qrySnap.size);
-      let newsPosts = qrySnap.docs.map(p => {
+      dlog('found %d posts', qrySnap.size);
+      const newsPosts = qrySnap.docs.map(p => {
         const r = {
           id: p.id,
           ...p.data(),
         };
         return newsDateForge(r);
       });
-      // filter here due to firestore limitation
-      if (isApprovedOnly === true) {
-        newsPosts = newsPosts.reduce((acc, cur) => {
-          if (cur.approvedAt !== null && cur.approvedBy !== null) acc.push(cur);
-          return acc;
-        }, []);
-      }
+
       const lastDoc = newsPosts[newsPosts.length - 1];
       let newCursor = '';
       if (lastDoc) {
@@ -133,6 +138,7 @@ const news = dbInstance => {
           curDateFrom: dateFrom ?? null,
           curDateTo: dateTo ?? null,
           curPageSize: pageSize,
+          curIsApprovedOnly: isApprovedOnly,
           curLastDoc: lastDoc.createdAt,
         });
         newCursor = Buffer.from(cpieces, 'utf-8').toString('base64');
@@ -141,7 +147,7 @@ const news = dbInstance => {
       return {
         newsPosts,
         cursor: newCursor,
-        count: newsPosts.length,
+        count: qrySnap.size,
       };
     });
   }
@@ -156,16 +162,19 @@ const news = dbInstance => {
     let theLastDoc = null;
     if (cursor) {
       const curObject = Buffer.from(cursor, 'base64').toString('utf-8');
-      const { curMemberId, curPageSize, curLastDoc } = JSON.parse(curObject);
+      const { curMemberId, curPageSize, curIsApprovedOnly, curLastDoc } =
+        JSON.parse(curObject);
       dlog(
-        'decode cursor memberId %s, pageSize %d, lastDoc %s',
+        'decode cursor memberId %s, pageSize %d, isApproved %o, lastDoc %s',
         curMemberId,
         curPageSize,
+        curIsApprovedOnly,
         curLastDoc,
       );
       if (
         curMemberId !== memberId ||
         curPageSize !== pageSize ||
+        curIsApprovedOnly !== isApprovedOnly ||
         curLastDoc == null
       ) {
         throw new Error(
@@ -175,24 +184,19 @@ const news = dbInstance => {
       theLastDoc = curLastDoc;
     }
 
-    let query = newsCollection
-      .where('createdBy', '==', memberId)
-      .orderBy('createdAt', 'desc')
-      .limit(pageSize);
+    let query = newsCollection.where('createdBy', '==', memberId);
+    if (isApprovedOnly === true)
+      query = query.where('isApproved', '==', isApprovedOnly);
+
+    query = query.orderBy('createdAt', 'desc').limit(pageSize);
     if (theLastDoc) query = query.startAfter(new Date(theLastDoc));
 
     return query.get().then(qrySnap => {
       dlog('return %d records', qrySnap.size);
-      let newsPosts = qrySnap.docs.map(p => {
+      const newsPosts = qrySnap.docs.map(p => {
         const r = { id: p.id, ...p.data() };
         return newsDateForge(r);
       });
-      if (isApprovedOnly === true) {
-        newsPosts = newsPosts.reduce((acc, cur) => {
-          if (cur.approvedAt !== null && cur.approvedBy !== null) acc.push(cur);
-          return acc;
-        }, []);
-      }
 
       const lastDoc = newsPosts[newsPosts.length - 1];
       let newCursor = '';
@@ -200,6 +204,7 @@ const news = dbInstance => {
         const cpieces = JSON.stringify({
           curMemberId: memberId,
           curPageSize: pageSize,
+          curIsApprovedOnly: isApprovedOnly,
           curLastDoc: lastDoc.createdAt,
         });
         newCursor = Buffer.from(cpieces, 'utf-8').toString('base64');
@@ -208,7 +213,7 @@ const news = dbInstance => {
       return {
         newsPosts,
         cursor: newCursor,
-        count: newsPosts.length,
+        count: qrySnap.size,
       };
     });
   }
@@ -294,6 +299,7 @@ const news = dbInstance => {
       .update({
         approvedAt: new Date(),
         approvedBy: userId,
+        isApproved: true,
       })
       .then(() => get(docRef.id));
   }
@@ -306,6 +312,7 @@ const news = dbInstance => {
       .update({
         approvedAt: null,
         approvedBy: null,
+        isApproved: false,
         lastUpdatedBy: userId,
       })
       .then(() => get(docRef.id));
