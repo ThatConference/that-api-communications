@@ -1,0 +1,20 @@
+type NewsQuery {
+  """
+  Returns approved posts in descending order
+  Default page size: 100, maximum: 500
+  """
+  approved(
+    dateFrom: Date
+    dateTo: Date
+    pageSize: Int
+    cursor: String
+  ): PagedNewsPost!
+  "Returns requested post only if Approved"
+  approvedPost(id: ID!): NewsPost
+  "find all approved posts for a member. Default pageSize 20, max: 100"
+  postsByMember(memberId: ID!, pageSize: Int, cursor: String): PagedNewsPost
+  "logged in member specific news post queries"
+  me: NewsMeQuery @auth(requires: "members")
+  "admin specific news post queries"
+  admin: NewsAdminQuery @auth(requires: "admin")
+}

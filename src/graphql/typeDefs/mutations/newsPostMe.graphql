@@ -1,0 +1,4 @@
+type NewsPostMeMutation {
+  "Update details on the news post"
+  update(newsPost: NewsPostUpdateInput!): NewsPost @auth(requires: "members")
+}

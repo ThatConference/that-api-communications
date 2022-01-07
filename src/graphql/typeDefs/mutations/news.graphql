@@ -1,0 +1,6 @@
+type NewsMutation {
+  "Mutations on a specific News Post"
+  newsPost(id: ID!): NewsPostMutation @auth(requires: "members")
+  "Create a new News Post"
+  create(newsPost: NewsPostCreateInput!): NewsPost! @auth(requires: "members")
+}

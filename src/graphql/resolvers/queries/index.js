@@ -10,7 +10,11 @@ import { fieldResolvers as eventCaboodleFields } from './eventCaboodle';
 import { fieldResolvers as eventMembersCaboodleFields } from './eventMembersCaboodle';
 import { fieldResolvers as eventTicketsCaboodleFields } from './eventTicketsCaboodle';
 import { fieldResolvers as eventSessionCaboodleFields } from './eventSessionsCaboodle';
-import { fieldResolvers as speakerSessions } from './speakerSessions';
+import { fieldResolvers as speakerSessionsFields } from './speakerSessions';
+import { fieldResolvers as newsFields } from './news';
+import { fieldResolvers as newsPostFields } from './newsPost';
+import { fieldResolvers as newsMePostFields } from './newsMe';
+import { fieldResolvers as newsAdminFields } from './newsAdmin';
 
 export default {
   ...root,
@@ -27,5 +31,9 @@ export const fieldResolvers = {
   ...eventMembersCaboodleFields,
   ...eventTicketsCaboodleFields,
   ...eventSessionCaboodleFields,
-  ...speakerSessions,
+  ...speakerSessionsFields,
+  ...newsFields,
+  ...newsPostFields,
+  ...newsMePostFields,
+  ...newsAdminFields,
 };

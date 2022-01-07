@@ -1,0 +1,20 @@
+type NewsPost {
+  "Unique id of post"
+  id: ID!
+  "Has this post been approved to be listed?"
+  isApproved: Boolean!
+  "URL of the news article/reference"
+  url: URL!
+  "Description of the new article/reference"
+  description: String!
+  "High-level subject tags"
+  tags: [String]!
+  "Date time post created"
+  createdAt: Date!
+  "Who created post"
+  createdBy: SecureProfile!
+  "Date time post approved"
+  approvedAt: Date
+  "member who approved news post"
+  approvedBy: ID
+}

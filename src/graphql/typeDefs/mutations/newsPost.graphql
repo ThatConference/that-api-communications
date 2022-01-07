@@ -1,0 +1,6 @@
+type NewsPostMutation {
+  "logged in user mutations"
+  me: NewsPostMeMutation @auth(requires: "members")
+  "admin mutations"
+  admin: NewsPostAdminMutation @auth(requires: "admin")
+}

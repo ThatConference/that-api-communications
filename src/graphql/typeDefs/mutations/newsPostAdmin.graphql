@@ -1,0 +1,8 @@
+type NewsPostAdminMutation {
+  "Update details on the news post"
+  update(newsPost: NewsPostUpdateInput!): NewsPost @auth(requires: "admin")
+  "Approve the news post"
+  approve: NewsPost @auth(requires: "admin")
+  "unapprove the news post"
+  unapprove: NewsPost @auth(requires: "admin")
+}
