@@ -3,6 +3,9 @@ name: PullReq CI
 
 on:
   pull_request:
+    branches:
+      - 'never/exist/branch'
+      - 'you/are/blocked'
 
 jobs:
   build:

@@ -4,7 +4,7 @@ name: Push Main CI for Cloud Run
 on:
   push:
     branches:
-      - main
+      - 'my/nonexisting/branch'
 
 jobs:
   build:
