@@ -4,6 +4,8 @@ All things communications and querying data for them.
 
 [![Push Main CI for Cloud Run](https://github.com/ThatConference/that-api-communications/actions/workflows/pushMainCi_GRun.yml/badge.svg)](https://github.com/ThatConference/that-api-communications/actions/workflows/pushMainCi_GRun.yml)
 
+[![.github/workflows/ci_onPushMain.yml](https://github.com/ThatConference/that-api-communications/actions/workflows/ci_onPushMain.yml/badge.svg)](https://github.com/ThatConference/that-api-communications/actions/workflows/ci_onPushMain.yml)
+
 ## Dependencies
 
 - Node `14+`
