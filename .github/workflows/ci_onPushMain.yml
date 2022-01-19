@@ -31,3 +31,5 @@ jobs:
     name: Send refresh request to Gateway
     needs: [build,deploy]
     uses: thatconference/that-gh-actions/.github/workflows/refresh-gateway-schema.yml@main
+    with:
+      apiName: communications
