@@ -10,6 +10,6 @@ jobs:
     with:
       apiName: communications
       isForDeploy: false
-      branchName: ${{ GITHUB_REF_NAME }}
+      branchName: ${{ github.ref_name }}
     secrets:
       SLACK_WEBHOOK_DEV_NOTIFICATIONS: ${{ secrets.SLACK_WEBHOOK_DEV_NOTIFICATIONS }}
