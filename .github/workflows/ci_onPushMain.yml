@@ -3,7 +3,7 @@ name: CI on Push Master
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -27,3 +27,7 @@ jobs:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       SLACK_WEBHOOK_DEV_NOTIFICATIONS: ${{ secrets.SLACK_WEBHOOK_DEV_NOTIFICATIONS }}
 
+  refresh:
+    name: Send refresh request to Gateway
+    needs: [build,deploy]
+    uses: thatconference/that-gh-actions/.github/workflows/refresh-gateway-schema.yml@main
