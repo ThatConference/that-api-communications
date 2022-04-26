@@ -2,22 +2,30 @@
 # Reference:  https://www.apollographql.com/docs/federation/value-types/#unions
 union TheSessions = Regular | OpenSpace | Keynote | Panel | Workshop
 
-extend type Regular @key(fields: "id") {
+extend interface Base @key(fields: "id") {
   id: ID! @external
 }
 
-extend type OpenSpace @key(fields: "id") {
+extend interface EyesFront @key(fields: "id") {
   id: ID! @external
 }
 
-extend type Keynote @key(fields: "id") {
+extend type Regular implements EyesFront & Base @key(fields: "id") {
   id: ID! @external
 }
 
-extend type Panel @key(fields: "id") {
+extend type OpenSpace implements Base @key(fields: "id") {
   id: ID! @external
 }
 
-extend type Workshop @key(fields: "id") {
+extend type Keynote implements EyesFront & Base @key(fields: "id") {
+  id: ID! @external
+}
+
+extend type Panel implements EyesFront & Base @key(fields: "id") {
+  id: ID! @external
+}
+
+extend type Workshop implements EyesFront & Base @key(fields: "id") {
   id: ID! @external
 }
