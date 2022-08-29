@@ -84,7 +84,7 @@ export default async ({ eventId, messageType, firestore, thatApi }) => {
         scope.setContext('addVariables', addVariables);
         Sentry.captureMessage(
           'Messages Additional Variables did not parse to an object. It will be ignored',
-          Sentry.Severity.Info,
+          'info',
         );
       });
       addVariables = {};
