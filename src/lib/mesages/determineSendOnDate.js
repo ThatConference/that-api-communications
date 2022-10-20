@@ -10,8 +10,9 @@ export default function determineSendOnDate({
   dlog('determineSendOnDate for a message');
 
   const oneDay = 86400000; // in milliseconds
-  const oneHour = 3600000;
+  // const oneHour = 3600000;
   const halfHour = 1800000;
+  const thirdHour = 1200000;
   const now = new Date().getTime();
   const _startDate = new Date(startDate).getTime();
   const _endDate = new Date(endDate).getTime();
@@ -36,19 +37,19 @@ export default function determineSendOnDate({
       sendOnDate = _endDate + oneDay;
       break;
     case 'ACCEPTED':
-      sendOnDate = now + oneHour;
+      sendOnDate = now + thirdHour;
       break;
     case 'ACCEPTED_ONLINE':
-      sendOnDate = now + oneHour;
+      sendOnDate = now + thirdHour;
       break;
     case 'ACCEPTED_IN_PERSON':
-      sendOnDate = now + oneHour;
+      sendOnDate = now + thirdHour;
       break;
     case 'REGRETS':
-      sendOnDate = now + oneHour;
+      sendOnDate = now + thirdHour;
       break;
     case 'WAIT_LIST':
-      sendOnDate = now + oneHour;
+      sendOnDate = now + thirdHour;
       break;
     case 'UNALLOCATED_TICKETS':
       sendOnDate = now + halfHour;
