@@ -55,58 +55,58 @@ describe('test determineSendOnDate', () => {
       });
     });
 
-    it(`calculates ACCEPTED (now + 1 hr)`, () => {
-      const nowlow = new Date().getTime() + 3600000;
+    it(`calculates ACCEPTED (now + 20 min)`, () => {
+      const nowlow = new Date().getTime() + 1200000;
       const sendOn = determineSendOnDate({
         startDate,
         endDate,
         messageType: 'ACCEPTED',
       });
-      const nowhigh = new Date().getTime() + 3600000;
+      const nowhigh = new Date().getTime() + 1200000;
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });
-    it(`calculates ACCEPTED_ONLINE (now + 1 hr)`, () => {
-      const nowlow = new Date().getTime() + 3600000;
+    it(`calculates ACCEPTED_ONLINE (now + 20 min)`, () => {
+      const nowlow = new Date().getTime() + 1200000;
       const sendOn = determineSendOnDate({
         startDate,
         endDate,
         messageType: 'ACCEPTED_ONLINE',
       });
-      const nowhigh = new Date().getTime() + 3600000;
+      const nowhigh = new Date().getTime() + 1200000;
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });
-    it(`calculates ACCEPTED_IN_PERSON (now + 1 hr)`, () => {
-      const nowlow = new Date().getTime() + 3600000;
+    it(`calculates ACCEPTED_IN_PERSON (now + 20 min)`, () => {
+      const nowlow = new Date().getTime() + 1200000;
       const sendOn = determineSendOnDate({
         startDate,
         endDate,
         messageType: 'ACCEPTED_IN_PERSON',
       });
-      const nowhigh = new Date().getTime() + 3600000;
+      const nowhigh = new Date().getTime() + 1200000;
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });
-    it(`calculates REGRETS (a.k.a. regerts) (now + 1 hr)`, () => {
-      const nowlow = new Date().getTime() + 3600000;
+    it(`calculates REGRETS (a.k.a. regerts) (now + 20 min)`, () => {
+      const nowlow = new Date().getTime() + 1200000;
       const sendOn = determineSendOnDate({
         startDate,
         endDate,
         messageType: 'REGRETS',
       });
-      const nowhigh = new Date().getTime() + 3600000;
+      const nowhigh = new Date().getTime() + 1200000;
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });
-    it(`calculates WAIT_LITED (now + 1 hr)`, () => {
-      const nowlow = new Date().getTime() + 3600000;
+    it(`calculates WAIT_LITED (now + 20 min)`, () => {
+      const nowlow = new Date().getTime() + 1200000;
       const sendOn = determineSendOnDate({
         startDate,
         endDate,
         messageType: 'WAIT_LIST',
       });
-      const nowhigh = new Date().getTime() + 3600000;
+      const nowhigh = new Date().getTime() + 1200000;
       expect(sendOn.getTime()).toBeGreaterThanOrEqual(nowlow);
       expect(sendOn.getTime()).toBeLessThanOrEqual(nowhigh);
     });
