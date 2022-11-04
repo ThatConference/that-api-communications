@@ -19,10 +19,12 @@ export default async ({ eventId, messageType, firestore, thatApi }) => {
     category: 'message queuing',
     message: 'start message queue process for event',
   });
-  Sentry.setTags({
-    messageQueueEventId: eventId,
-    messageQueueMessageType: messageType,
-  });
+  Sentry.configureScope(scope =>
+    scope.setTags({
+      messageQueueEventId: eventId,
+      messageQueueMessageType: messageType,
+    }),
+  );
 
   const msgQueueStore = msgQueueFunc(firestore);
   const writeQueueRate = envConfig.messageQueueWriteRate;
@@ -49,7 +51,9 @@ export default async ({ eventId, messageType, firestore, thatApi }) => {
     throw err;
   }
   const eventType = event.type;
-  Sentry.setTag('messageQueueEventType', eventType);
+  Sentry.configureScope(scope =>
+    scope.setTag('messageQueueEventType', eventType),
+  );
   let message = null;
   if (eventType === 'ONLINE') {
     message = await messagesStore(firestore).findOnlineMessageByType(
