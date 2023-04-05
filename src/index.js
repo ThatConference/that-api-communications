@@ -2,9 +2,13 @@
 /* eslint-disable import/no-unresolved */
 import 'dotenv/config';
 import express from 'express';
+import http from 'node:http';
+import { json } from 'body-parser';
+import { expressMiddleware } from '@apollo/server/express4';
+import cors from 'cors';
 import debug from 'debug';
-import { Firestore } from '@google-cloud/firestore';
 import responseTime from 'response-time';
+import { Firestore } from '@google-cloud/firestore';
 import * as Sentry from '@sentry/node';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -25,6 +29,7 @@ const dlog = debug('that:api:communications:index');
 const defaultVersion = `that-api-communications@${version}`;
 const firestore = new Firestore();
 const api = express();
+const port = process.env.PORT || 8006;
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -38,16 +43,19 @@ Sentry.configureScope(scope => {
   scope.setTag('thatApp', 'that-api-communications');
 });
 
+const httpServer = http.createServer(api);
+
 const createConfig = () => ({
   dataSources: {
     sentry: Sentry,
     firestore,
   },
+  httpServer,
 });
 
-const graphServer = apolloGraphServer(createConfig());
+const graphServerParts = apolloGraphServer(createConfig());
 
-const useSentry = async (req, res, next) => {
+const sentryMark = async (req, res, next) => {
   Sentry.addBreadcrumb({
     category: 'that-api-communications',
     message: 'communications init',
@@ -56,17 +64,6 @@ const useSentry = async (req, res, next) => {
   next();
 };
 
-/**
- * http middleware function
- * here we are intercepting the http call and building our own notion of a users context.
- * we then add it to the request so it can later be used by the gateway.
- * If you had something like a token that needs to be passed through to the gateways children this is how you intercept it and setup for later.
- *
- * @param {string} req - http request
- * @param {string} res - http response
- * @param {string} next - next function to execute
- *
- */
 function createUserContext(req, res, next) {
   const correlationId =
     req.headers['that-correlation-id'] &&
@@ -76,6 +73,9 @@ function createUserContext(req, res, next) {
 
   Sentry.configureScope(scope => {
     scope.setTag('correlationId', correlationId);
+    scope.setContext('headers', {
+      headers: req.headers,
+    });
   });
 
   let site;
@@ -108,18 +108,47 @@ function failure(err, req, res, next) {
   res.set('Content-Type', 'application/json').status(500).json(err);
 }
 
-api.use(responseTime()).use(useSentry).use(createUserContext).use(failure);
+// api.use(responseTime()).use(useSentry).use(createUserContext).use(failure);
+api.use(
+  Sentry.Handlers.requestHandler(),
+  cors(),
+  responseTime(),
+  json(),
+  sentryMark,
+  createUserContext,
+);
 
-const port = process.env.PORT || 8006;
-graphServer
+const { graphQlServer, createContext } = graphServerParts;
+
+graphQlServer
   .start()
   .then(() => {
-    graphServer.applyMiddleware({ app: api, path: '/' });
-    api.listen({ port }, () =>
-      console.log(`✨Communications 🛰 is running 🏃‍♂️ on port 🚢 ${port}`),
+    api.use(
+      expressMiddleware(graphQlServer, {
+        context: async ({ req }) => createContext({ req }),
+      }),
     );
   })
   .catch(err => {
     console.log(`graphServer.start() error 💥: ${err.message}`);
     throw err;
   });
+
+api.use(Sentry.Handlers.errorHandler()).use(failure);
+
+api.listen({ port }, () =>
+  console.log(`✨Communications 🛰 is running on port 🚢 ${port}`),
+);
+
+// graphServer
+//   .start()
+//   .then(() => {
+//     graphServer.applyMiddleware({ app: api, path: '/' });
+//     api.listen({ port }, () =>
+//       console.log(`✨Communications 🛰 is running 🏃‍♂️ on port 🚢 ${port}`),
+//     );
+//   })
+//   .catch(err => {
+//     console.log(`graphServer.start() error 💥: ${err.message}`);
+//     throw err;
+//   });
