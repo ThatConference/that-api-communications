@@ -46,32 +46,6 @@ const createServerParts = ({ dataSources, httpServer }) => {
     schema,
   );
 
-  dlog('🚜 assembling datasources');
-  const { firestore } = dataSources;
-  const amendedDataSources = {
-    ...dataSources,
-    memberLoader: new DataLoader(ids =>
-      memberStore(firestore)
-        .getSecureBatch(ids)
-        .then(members => {
-          if (members.includes(null)) {
-            Sentry.withScope(scope => {
-              scope.setLevel('error');
-              scope.setContext(
-                `Members requested in memberLoader don't exist in member collection`,
-                { ids },
-                { members },
-              );
-              Sentry.captureMessage(
-                `Members requested in memberLoader don't exist in member collection`,
-              );
-            });
-          }
-          return ids.map(id => members.find(m => m && m.id === id));
-        }),
-    ),
-  };
-
   dlog('🚜 creating new apollo server instance');
   const graphQlServer = new ApolloServer({
     schema,
@@ -104,9 +78,31 @@ const createServerParts = ({ dataSources, httpServer }) => {
   dlog('🚜 creating createContext function');
   const createContext = async ({ req, res }) => {
     dlog('🚜 building graphql user context');
+    dlog('🚜 assembling datasources');
+    const { firestore } = dataSources;
     let context = {
       dataSources: {
-        ...amendedDataSources,
+        ...dataSources,
+        memberLoader: new DataLoader(ids =>
+          memberStore(firestore)
+            .getSecureBatch(ids)
+            .then(members => {
+              if (members.includes(null)) {
+                Sentry.withScope(scope => {
+                  scope.setLevel('error');
+                  scope.setContext(
+                    `Members requested in memberLoader don't exist in member collection`,
+                    { ids },
+                    { members },
+                  );
+                  Sentry.captureMessage(
+                    `Members requested in memberLoader don't exist in member collection`,
+                  );
+                });
+              }
+              return ids.map(id => members.find(m => m && m.id === id));
+            }),
+        ),
       },
     };
 
@@ -138,7 +134,7 @@ const createServerParts = ({ dataSources, httpServer }) => {
           correlationId: req.userContext.correlationId,
         },
         dataSources: {
-          ...amendedDataSources,
+          ...context.dataSources,
           thatApi: new ThatApi({ authToken: req.userContext.authToken }),
         },
       };
