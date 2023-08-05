@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable import/no-unresolved */
 import 'dotenv/config';
-import express from 'express';
 import http from 'node:http';
+import express from 'express';
 import { json } from 'body-parser';
 import { expressMiddleware } from '@apollo/server/express4';
 import cors from 'cors';
@@ -13,17 +13,7 @@ import * as Sentry from '@sentry/node';
 import { v4 as uuidv4 } from 'uuid';
 
 import apolloGraphServer from './graphql';
-
-let version;
-(async () => {
-  let p;
-  try {
-    p = await import('./package.json');
-  } catch {
-    p = await import('../package.json');
-  }
-  version = p.version;
-})();
+import { version } from './package.json';
 
 const dlog = debug('that:api:communications:index');
 const defaultVersion = `that-api-communications@${version}`;
@@ -101,6 +91,11 @@ function createUserContext(req, res, next) {
   next();
 }
 
+function getVersion(req, res) {
+  dlog('method %s, defaultVersion %s', req.method, defaultVersion);
+  return res.json({ version: defaultVersion });
+}
+
 function failure(err, req, res, next) {
   dlog('error %o', err);
   Sentry.captureException(err);
@@ -117,6 +112,7 @@ api.use(
   sentryMark,
   createUserContext,
 );
+api.use('/version', getVersion);
 
 const { graphQlServer, createContext } = graphServerParts;
 
