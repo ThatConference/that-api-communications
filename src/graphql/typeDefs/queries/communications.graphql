@@ -1,6 +1,6 @@
 type CommunicationsQuery {
   "Messages query path"
   messages: CommunicationsMessagesQuery @auth(requires: "admin")
-  "Check point for status monitor"
-  check: Boolean
+  "Checks and validations path"
+  checks: CommunicationsChecksQuery
 }

@@ -2,6 +2,7 @@ import root from './root';
 
 import { fieldResolvers as communicationFields } from './communications';
 import { fieldResolvers as communicationsMessagesFields } from './communicationsMessages';
+import { fieldResolvers as communicationsChecks } from './communicationsChecks';
 import { fieldResolvers as messageDefinitionFields } from './messageDefinition';
 import { fieldResolvers as eventAllocationFields } from './eventAllocation';
 import { fieldResolvers as eventOrderFields } from './eventOrder';
@@ -23,6 +24,7 @@ export default {
 export const fieldResolvers = {
   ...communicationFields,
   ...communicationsMessagesFields,
+  ...communicationsChecks,
   ...messageDefinitionFields,
   ...eventAllocationFields,
   ...eventOrderFields,
