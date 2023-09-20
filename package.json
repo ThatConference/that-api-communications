@@ -1,6 +1,6 @@
 {
   "name": "that-api-communications",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "THAT communications api. Where we keep in touch with you!",
   "main": "index.js",
   "engines": {
@@ -20,7 +20,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@apollo/datasource-rest": "^6.0.1",
+    "@apollo/datasource-rest": "^6.2.0",
     "@apollo/server": "^4.9.0",
     "@apollo/subgraph": "^2.4.12",
     "@google-cloud/firestore": "^6.7.0",
