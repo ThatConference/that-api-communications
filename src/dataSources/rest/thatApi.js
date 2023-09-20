@@ -11,7 +11,7 @@ class ThatApi extends RESTDataSource {
     this.authToken = authToken;
   }
 
-  willSendRequest(request) {
+  willSendRequest(_path, request) {
     dlog('⚡ willSendRequest:: %o', request);
     request.headers.authorization = this.authToken;
   }

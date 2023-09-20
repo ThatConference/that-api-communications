@@ -1,0 +1,6 @@
+type CommunicationsChecksQuery {
+  "Check point for status monitor"
+  check: Boolean
+  "Validation point for THATApi RESTDataSource"
+  validateThatApiRequest: Boolean @auth(requires: "admin")
+}
